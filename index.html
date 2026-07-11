@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Илья Солдатко — врач-рентгенолог. База знаний по лучевой диагностике</title>
+<meta name="description" content="Систематизированные материалы, клинические случаи и исследования врача-рентгенолога Ильи Солдатко для врачей и специалистов лучевой диагностики.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+/* ==========================================================================
+   ILYA SOLDATKO — RADIOLOGY KNOWLEDGE PLATFORM
+   Concept: "Light technological" — soft blue gradients, glassmorphism
+   Signature retained: scan ruler, slice numbering, report-card, scanline hero
+   Type: Space Grotesk (display) / Inter (text) / JetBrains Mono (data, HUD)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  color-scheme: dark only;
+
+  /* -- palette: deep navy to pale sky blue -- */
+  --navy-950: #001D39;
+  --navy-800: #0A4174;
+  --blue-700: #49769F;
+  --blue-600: #4E8EA2;
+  --blue-500: #6EA2B3;
+  --blue-300: #7BBDE8;
+  --blue-100: #BDD8E9;
+  --ice-50:  #F5FAFE;
+  --ice-100: #EAF4FB;
+  --ice-200: #DCEDF7;
+
+  /* -- dark surfaces -- */
+  --dark-bg: #050B14;
+  --dark-bg-2: #0A1522;
+  --dark-bg-3: #0F1E2E;
+
+  /* -- semantic aliases (dark theme) -- */
+  --bg: var(--dark-bg);
+  --bg-section: var(--dark-bg-2);
+  --accent: var(--blue-500);
+  --accent-2: var(--blue-300);
+  --accent-dark: var(--blue-300);
+  --heading: #F2F7FB;
+  --text: #A9BFD1;
+  --text-soft: #77909F;
+  --border: rgba(255,255,255,0.12);
+
+  --accent-rgb: 110,162,179;
+  --accent-dark-rgb: 123,189,232;
+
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-lg: 32px;
+  --radius-md: 22px;
+  --radius-sm: 14px;
+
+  /* -- glass surfaces (dark) -- */
+  --glass-bg: rgba(255,255,255,0.055);
+  --glass-bg-strong: rgba(255,255,255,0.09);
+  --glass-border: rgba(255,255,255,0.13);
+  --glass-blur: blur(20px) saturate(180%);
+
+  --shadow-soft: 0 30px 80px -24px rgba(0,0,0,0.55);
+  --shadow-card: 0 16px 40px -16px rgba(0,0,0,0.5);
+  --shadow-glass: 0 8px 28px -8px rgba(0,0,0,0.4);
+
+  --maxw: 1280px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+html{
+  background:
+    radial-gradient(ellipse 90% 60% at 15% 0%, rgba(123,189,232,0.14), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 100% 10%, rgba(78,142,162,0.1), transparent 55%),
+    linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-bg-2) 45%, #000000 100%);
+  background-attachment: fixed;
+}
+
+body{
+  margin:0;
+  background:transparent;
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+button{ font-family:inherit; }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  color:var(--heading);
+  margin:0;
+  line-height:1.14;
+  letter-spacing:-0.015em;
+  font-weight:600;
+}
+
+.container{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:0 clamp(20px, 5vw, 64px);
+}
+
+/* -------------------- focus -------------------- */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--accent-dark);
+  outline-offset:3px;
+  border-radius:6px;
+}
+
+/* -------------------- eyebrow / mono labels -------------------- */
+.mono-tag{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--accent-dark);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.mono-tag::before{
+  content:"";
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 4px rgba(var(--accent-rgb),0.16);
+}
+
+/* ==========================================================================
+   NAV — glass bar
+   ========================================================================== */
+.site-nav{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:100;
+  background:var(--glass-bg-strong);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid var(--glass-border);
+}
+.site-nav .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:82px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  font-family:var(--font-display);
+  color:var(--heading);
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+  text-align:left;
+}
+.brand-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1.2;
+}
+.brand-name{
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:0.01em;
+  color:var(--heading);
+}
+.brand-role{
+  font-size:11.5px;
+  font-weight:500;
+  color:var(--accent);
+}
+.brand-mark{
+  width:38px; height:38px;
+  border-radius:12px;
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 22%, rgba(255,255,255,0.55) 22%, rgba(255,255,255,0.55) 26%, transparent 26%,
+    transparent 48%, rgba(255,255,255,0.55) 48%, rgba(255,255,255,0.55) 52%, transparent 52%,
+    transparent 74%, rgba(255,255,255,0.55) 74%, rgba(255,255,255,0.55) 78%, transparent 78%),
+    linear-gradient(155deg, var(--navy-800), var(--blue-600));
+  flex-shrink:0;
+  box-shadow:0 6px 16px -6px rgba(0,0,0,0.4);
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:34px;
+  list-style:none;
+  margin:0; padding:0;
+}
+.nav-links a, .nav-links button.nav-link-btn{
+  text-decoration:none;
+  font-size:14.5px;
+  font-weight:500;
+  color:var(--text);
+  position:relative;
+  padding:6px 0;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  text-align:left;
+  transition:color .2s;
+}
+.nav-links a:hover, .nav-links button.nav-link-btn:hover{ color:var(--accent-dark); }
+.nav-links a.active, .nav-links button.nav-link-btn.active{ color:var(--accent-dark); }
+.nav-links a.active::after, .nav-links button.nav-link-btn.active::after{
+  content:"";
+  position:absolute; left:0; right:0; bottom:-2px;
+  height:2px; background:var(--accent);
+  border-radius:2px;
+}
+a.nav-cta, button.nav-cta{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:var(--glass-bg-strong);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:1.5px solid rgba(123,189,232,0.4);
+  color:var(--accent-dark) !important;
+  padding:10px 22px;
+  border-radius:100px;
+  font-size:14px;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+  box-shadow:0 6px 18px -10px rgba(123,189,232,0.3);
+}
+a.nav-cta svg, button.nav-cta svg{ width:14px; height:14px; flex-shrink:0; }
+a.nav-cta:hover, button.nav-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 26px -10px rgba(123,189,232,0.45);
+  background:rgba(255,255,255,0.13);
+  border-color:rgba(123,189,232,0.65);
+}
+
+.nav-toggle{
+  display:none;
+  width:42px; height:42px;
+  border-radius:12px;
+  border:1px solid var(--glass-border);
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.nav-toggle svg{ width:18px; height:18px; color:var(--accent-dark); }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero{
+  position:relative;
+  padding:184px 0 108px;
+  overflow:hidden;
+}
+.hero-grid{
+  position:absolute;
+  left:0; right:0;
+  top:-18%; height:136%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 60% at 70% 20%, black, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 70% 20%, black, transparent 75%);
+  pointer-events:none;
+  will-change:transform;
+}
+.section-parallax-grid{
+  position:absolute;
+  left:0; right:0;
+  top:-18%; height:136%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 70% 55% at 25% 35%, black, transparent 72%);
+  -webkit-mask-image:radial-gradient(ellipse 70% 55% at 25% 35%, black, transparent 72%);
+  pointer-events:none;
+  will-change:transform;
+}
+section{ overflow:hidden; }
+.hero .container{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.05fr 0.95fr;
+  gap:64px;
+  align-items:center;
+}
+.hero-copy .mono-tag{ margin-bottom:24px; }
+.hero-copy h1{
+  font-size:clamp(38px, 4.6vw, 58px);
+  font-weight:550;
+  margin-bottom:24px;
+}
+.hero-copy h1 em{
+  font-style:normal;
+  background:linear-gradient(120deg, var(--blue-300), #ffffff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.text-gradient{
+  background:linear-gradient(120deg, var(--blue-300), #ffffff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-copy p.lead{
+  font-size:18px;
+  color:var(--text);
+  max-width:46ch;
+  margin-bottom:20px;
+}
+.hero-tagline{
+  margin:0 0 36px;
+  max-width:44ch;
+  padding-left:16px;
+  border-left:2px solid var(--accent-2);
+}
+.hero-tagline p{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:16px;
+  line-height:1.5;
+  color:var(--accent-dark);
+  margin:0 0 8px;
+}
+.hero-tagline cite{
+  display:block;
+  font-style:normal;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.03em;
+  color:var(--text-soft);
+}
+.hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:16px 30px;
+  border-radius:100px;
+  font-weight:600;
+  font-size:15px;
+  text-decoration:none;
+  border:1px solid transparent;
+  cursor:pointer;
+  overflow:hidden;
+  background-clip:padding-box;
+  -webkit-background-clip:padding-box;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease, filter .25s ease;
+}
+.btn-primary{
+  position:relative;
+  isolation:isolate;
+  color:#fff;
+  box-shadow:0 10px 24px -10px rgba(0,0,0,0.5);
+  z-index:0;
+}
+.btn-primary::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg, var(--navy-800), var(--blue-600));
+  z-index:-1;
+}
+.btn-primary:hover{ transform:translateY(-2px); filter:brightness(1.07); box-shadow:0 14px 28px -10px rgba(0,0,0,0.55); }
+.btn-ghost{
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  color:var(--accent-dark);
+  border-color:var(--glass-border);
+}
+.btn-ghost:hover{ border-color:var(--accent-2); background:rgba(255,255,255,0.1); }
+.btn svg{ width:16px; height:16px; }
+
+/* Hero portrait panel — glass frame around gradient scan panel */
+.hero-visual{
+  position:relative;
+  aspect-ratio:4/5;
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  background:linear-gradient(165deg, var(--navy-800) 0%, var(--blue-700) 55%, var(--blue-500) 100%);
+  box-shadow:var(--shadow-soft);
+  border:1px solid rgba(255,255,255,0.3);
+}
+.hero-visual .portrait-figure{
+  position:absolute; inset:0;
+  display:flex; align-items:flex-end; justify-content:center;
+}
+.hero-visual svg{ width:78%; height:auto; opacity:0.92; }
+.hero-visual .grid-overlay{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+.hero-visual .corner{
+  position:absolute;
+  width:22px; height:22px;
+  border:1.5px solid rgba(255,255,255,0.6);
+}
+.hero-visual .corner.tl{ top:20px; left:20px; border-right:none; border-bottom:none; }
+.hero-visual .corner.tr{ top:20px; right:20px; border-left:none; border-bottom:none; }
+.hero-visual .corner.bl{ bottom:20px; left:20px; border-right:none; border-top:none; }
+.hero-visual .corner.br{ bottom:20px; right:20px; border-left:none; border-top:none; }
+.hero-visual .scan-hud{
+  position:absolute;
+  bottom:20px; left:52px; right:52px;
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:rgba(255,255,255,0.78);
+  letter-spacing:0.04em;
+}
+.hero-visual .scanline{
+  position:absolute;
+  left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, rgba(189,216,233,0.95), transparent);
+  box-shadow:0 0 18px 4px rgba(189,216,233,0.55);
+  animation:scanmove 5.5s ease-in-out infinite;
+}
+@keyframes scanmove{
+  0%{ top:6%; opacity:0; }
+  8%{ opacity:1; }
+  50%{ top:94%; opacity:1;}
+  60%{ opacity:0; }
+  100%{ top:94%; opacity:0; }
+}
+
+/* ==========================================================================
+   SECTION SCAFFOLDING
+   ========================================================================== */
+section{ position:relative; padding:132px 0; }
+.section-alt{
+  background:linear-gradient(180deg, rgba(78,142,162,0.1), rgba(78,142,162,0));
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  margin-bottom:64px;
+  flex-wrap:wrap;
+}
+.section-head .mono-tag{ margin-bottom:18px; }
+.section-head h2{ font-size:clamp(28px, 3.2vw, 40px); max-width:18ch; }
+.section-head .desc{ max-width:38ch; color:var(--text); font-size:15.5px; }
+
+@media (min-width: 901px){
+  .section-head{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .section-head .desc{ max-width:none; width:100%; }
+}
+
+/* ==========================================================================
+   ABOUT — "report card" (glass)
+   ========================================================================== */
+.report-card{
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--shadow-card);
+  overflow:hidden;
+}
+.report-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:24px 36px;
+  border-bottom:1px dashed rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--accent-dark);
+  letter-spacing:0.04em;
+}
+.report-fields{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+}
+.report-field{
+  padding:40px 36px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.report-field:nth-child(odd){ border-right:1px solid rgba(255,255,255,0.1); }
+.report-field:nth-last-child(-n+2){ border-bottom:none; }
+.report-field-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.report-field-label .slice-index{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:#fff;
+  background:linear-gradient(135deg, var(--accent-dark), var(--accent));
+  padding:3px 8px;
+  border-radius:6px;
+  letter-spacing:0.03em;
+}
+.report-field-label h4{ font-size:15.5px; font-family:var(--font-body); font-weight:600; color:var(--heading); }
+.report-field p{ margin:0; font-size:15px; color:var(--text); }
+.report-field ul{ margin:0; padding-left:18px; font-size:15px; }
+.report-field li{ margin-bottom:6px; }
+
+@media (max-width: 780px){
+  .report-fields{ grid-template-columns:1fr; }
+  .report-field:nth-child(odd){ border-right:none; }
+  .report-field:nth-last-child(-n+2){ border-bottom:1px solid rgba(255,255,255,0.1); }
+  .report-field:last-child{ border-bottom:none; }
+}
+
+/* ==========================================================================
+   DIRECTIONS — glass accordion cards
+   ========================================================================== */
+.directions-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  align-items:start;
+  gap:18px;
+}
+.direction-card{
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  padding:32px 28px;
+  cursor:pointer;
+  transition:background .3s ease, box-shadow .3s ease, transform .3s ease, border-color .3s ease;
+  position:relative;
+  box-shadow:var(--shadow-glass);
+}
+.direction-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-card); background:rgba(255,255,255,0.08); }
+.direction-index{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:var(--accent);
+  display:block;
+  margin-bottom:18px;
+}
+.direction-card h4{
+  font-size:17px;
+  font-family:var(--font-body);
+  font-weight:600;
+  margin-bottom:10px;
+  color:var(--heading);
+}
+.direction-card p{
+  font-size:13.5px;
+  color:var(--text);
+  margin:0;
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transition:max-height .3s ease, opacity .3s ease, margin .3s ease;
+}
+.direction-card.is-open p{
+  max-height:200px;
+  opacity:1;
+  margin-top:2px;
+}
+.direction-card .plus{
+  position:absolute;
+  top:28px; right:26px;
+  width:20px; height:20px;
+  color:var(--accent-2);
+}
+.direction-card .plus::before,.direction-card .plus::after{
+  content:"";
+  position:absolute;
+  background:currentColor;
+  transition:transform .3s ease;
+}
+.direction-card .plus::before{ top:9px; left:2px; right:2px; height:1.4px; }
+.direction-card .plus::after{ left:9px; top:2px; bottom:2px; width:1.4px; }
+.direction-card.is-open .plus::after{ transform:rotate(90deg); }
+
+.direction-card.is-open{
+  background:linear-gradient(160deg, rgba(255,255,255,0.1), rgba(123,189,232,0.08));
+  border-color:rgba(var(--accent-rgb),0.5);
+  box-shadow:0 24px 50px -20px rgba(0,0,0,0.4), 0 0 0 1px rgba(var(--accent-rgb),0.3) inset;
+  transform:translateY(-3px);
+}
+.direction-card.is-open .direction-index{ color:var(--accent-dark); font-weight:600; }
+.direction-card.is-open h4{ color:var(--accent-dark); }
+.direction-card.is-open .plus{ color:var(--accent-dark); }
+
+@media (max-width: 980px){ .directions-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 560px){ .directions-grid{ grid-template-columns:1fr; } }
+
+/* ==========================================================================
+   FILMSTRIP — publications / cases carousel (glass cards)
+   ========================================================================== */
+.filmstrip-wrap{ position:relative; }
+.filmstrip{
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding:6px 6px 14px;
+  scrollbar-width:none;
+}
+.filmstrip::-webkit-scrollbar{ display:none; }
+.film-card{
+  scroll-snap-align:center;
+  flex:0 0 min(340px, 82vw);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--shadow-glass);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.film-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-card); }
+.film-card-strip{
+  height:8px;
+  background-image:repeating-linear-gradient(90deg, rgba(255,255,255,0.16) 0 6px, transparent 6px 14px);
+}
+.film-card-body{ padding:28px; flex:1; display:flex; flex-direction:column; }
+.film-tag{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--accent-dark);
+  background:rgba(255,255,255,0.078);
+  padding:4px 9px;
+  border-radius:6px;
+  align-self:flex-start;
+  margin-bottom:18px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.film-card-body h4{ font-size:17px; font-family:var(--font-body); font-weight:600; margin-bottom:10px; }
+.film-card-body p{ font-size:14px; color:var(--text); margin:0 0 18px; flex:1; }
+.film-meta{
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:#7690A3;
+  padding-top:16px;
+  border-top:1px dashed rgba(255,255,255,0.14);
+}
+.filmstrip-nav{
+  display:flex; gap:10px; margin-top:28px; justify-content:flex-end;
+}
+.filmstrip-nav button{
+  width:44px; height:44px;
+  border-radius:50%;
+  border:1px solid rgba(78,142,162,0.3);
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:box-shadow .2s ease;
+}
+.filmstrip-nav button:active{
+  box-shadow:0 0 0 4px rgba(78,142,162,0.18), inset 0 0 8px rgba(78,142,162,0.22);
+}
+.filmstrip-nav svg{ width:16px; height:16px; color:var(--accent-dark); }
+
+/* ==========================================================================
+   CONTACT
+   ========================================================================== */
+.contact-grid{
+  display:grid;
+  grid-template-columns:0.9fr 1.1fr;
+  gap:64px;
+}
+.contact-info-card{
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:var(--radius-lg);
+  padding:44px;
+  background:linear-gradient(165deg, var(--navy-800), var(--blue-700) 70%, var(--blue-600));
+  color:#fff;
+  box-shadow:var(--shadow-soft);
+}
+.contact-info-card h3{ color:#fff; font-size:24px; margin-bottom:16px; }
+.contact-info-card p{ color:rgba(255,255,255,0.82); font-size:14.5px; margin-bottom:22px; }
+.consult-list{
+  margin:0 0 22px;
+  padding:0;
+  list-style:none;
+}
+.consult-list li{
+  position:relative;
+  padding-left:26px;
+  margin-bottom:12px;
+  font-size:14.5px;
+  color:rgba(255,255,255,0.9);
+}
+.consult-list li::before{
+  content:"";
+  position:absolute;
+  left:0; top:7px;
+  width:14px; height:14px;
+  border-radius:50%;
+  border:1.5px solid var(--blue-300);
+  background:rgba(123,189,232,0.15);
+}
+.consult-list li::after{
+  content:"";
+  position:absolute;
+  left:5px; top:11px;
+  width:4px; height:8px;
+  border-right:1.5px solid var(--blue-300);
+  border-bottom:1.5px solid var(--blue-300);
+  transform:rotate(45deg);
+}
+.contact-single{
+  max-width:600px;
+  margin:0 auto;
+}
+.social-tiles{ display:none; }
+@media (min-width: 901px){
+  .contact-single{
+    max-width:none;
+    margin:0;
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:40px;
+    align-items:start;
+  }
+  .contact-info-card .social-row{ display:none; }
+  .social-tiles{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .social-tile{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:22px 24px;
+    border-radius:var(--radius-md);
+    border:1px solid var(--glass-border);
+    background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);
+    -webkit-backdrop-filter:var(--glass-blur);
+    text-decoration:none;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:var(--shadow-glass);
+  }
+  .social-tile:hover{ transform:translateY(-3px); box-shadow:var(--shadow-card); }
+  .social-tile-icon{
+    width:44px; height:44px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--navy-800), var(--blue-600));
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:600;
+    flex-shrink:0;
+  }
+  .social-tile-text{ display:flex; flex-direction:column; gap:2px; }
+  .social-tile-text strong{ font-size:15px; color:var(--heading); font-weight:600; }
+  .social-tile-text small{ font-size:13px; color:var(--text-soft); }
+}
+.contact-row{
+  display:flex; align-items:center; gap:14px;
+  padding:15px 0;
+  border-top:1px solid rgba(255,255,255,0.18);
+  font-size:14.5px;
+}
+.contact-row:first-of-type{ border-top:1px solid rgba(255,255,255,0.18); }
+.contact-row svg{ width:18px; height:18px; flex-shrink:0; color:var(--blue-300); }
+.social-row{ display:flex; gap:12px; margin-top:24px; }
+.social-row a{
+  width:42px; height:42px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  text-decoration:none;
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:#fff;
+  transition:background .2s;
+}
+.social-row a:hover{ background:rgba(255,255,255,0.26); }
+
+.contact-form{
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  padding:44px;
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--shadow-card);
+}
+.form-row{ margin-bottom:22px; }
+.form-row label{
+  display:block;
+  font-size:12.5px;
+  font-family:var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--accent-dark);
+  margin-bottom:9px;
+}
+.form-row input, .form-row textarea, .form-row select{
+  width:100%;
+  padding:14px 18px;
+  border-radius:var(--radius-sm);
+  border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.078);
+  font-family:var(--font-body);
+  font-size:14.5px;
+  color:var(--heading);
+  transition:border-color .2s, background .2s;
+}
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus{
+  border-color:var(--accent);
+  background:rgba(255,255,255,0.123);
+  outline:none;
+}
+.form-row textarea{ resize:vertical; min-height:110px; }
+.form-note{ font-size:12.5px; color:var(--text-soft); margin-top:8px; }
+.form-success{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:15px 20px;
+  border-radius:var(--radius-sm);
+  background:rgba(255,255,255,0.078);
+  border:1px solid rgba(255,255,255,0.14);
+  color:var(--accent-dark);
+  font-size:14px;
+  margin-top:18px;
+}
+.form-success.is-visible{ display:flex; }
+
+@media (max-width: 900px){
+  .contact-grid{ grid-template-columns:1fr; }
+  .hero .container{ grid-template-columns:1fr; }
+  .hero-visual{ order:-1; max-width:420px; margin:0 auto; }
+}
+
+@media (max-width: 600px){
+  .hero{ padding:99px 0 48px; }
+  .hero .container{ gap:8px; }
+  .hero-copy .mono-tag{ margin-bottom:24px; }
+  .hero-copy h1{ font-size:clamp(28px, 8vw, 36px); margin-bottom:26px; }
+  .hero-copy p.lead{ font-size:15px; margin-bottom:38px; }
+  .hero-tagline{ margin-bottom:46px; }
+  .hero-tagline p{ font-size:14px; }
+  .hero-tagline cite{ font-size:11px; }
+  .hero-visual{ max-width:280px; }
+  .btn{ padding:14px 24px; font-size:14px; }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+footer{
+  background:linear-gradient(180deg, var(--navy-950), #001126);
+  color:rgba(255,255,255,0.6);
+  padding:52px 0;
+  font-size:13.5px;
+}
+footer .container{
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+}
+footer a{ color:rgba(255,255,255,0.85); text-decoration:none; }
+footer a:hover{ text-decoration:underline; }
+
+/* ==========================================================================
+   MOBILE NAV
+   ========================================================================== */
+@media (max-width: 860px){
+  .nav-links{
+    position:fixed;
+    top:82px; left:0; right:0;
+    background:
+      linear-gradient(165deg, rgba(5,11,20,0.97), rgba(10,21,34,0.97));
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    border-bottom:1px solid var(--glass-border);
+    box-shadow:0 24px 50px -20px rgba(0,0,0,0.55);
+    flex-direction:column;
+    align-items:stretch;
+    padding:14px clamp(20px,5vw,64px) 26px;
+    gap:0;
+    transform:translateY(-130%);
+    transition:transform .3s ease;
+  }
+  .nav-links.is-open{ transform:translateY(0); }
+  .nav-links li{
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .nav-links li:last-child{ border-bottom:none; margin-top:14px; }
+  .nav-links a:not(.nav-cta), .nav-links button.nav-link-btn:not(.nav-cta){
+    display:block;
+    width:100%;
+    padding:15px 2px;
+  }
+  .nav-links li:last-child a.nav-cta, .nav-links li:last-child button.nav-cta{
+    display:inline-flex;
+    margin-top:2px;
+  }
+  .nav-toggle{ display:flex; }
+}
+
+/* ==========================================================================
+   MODAL (used across pages)
+   ========================================================================== */
+.modal-backdrop{
+  position:fixed; inset:0;
+  background:rgba(0,20,40,0.4);
+  backdrop-filter:blur(6px);
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:80px 20px;
+  z-index:200;
+  overflow-y:auto;
+}
+.modal-backdrop.is-open{ display:flex; }
+.modal-panel{
+  background:rgba(255,255,255,0.112);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  max-width:760px;
+  width:100%;
+  border-radius:var(--radius-lg);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,0.35);
+  overflow:hidden;
+  animation:modalIn .3s ease;
+  border:1px solid rgba(255,255,255,0.6);
+}
+@keyframes modalIn{ from{ opacity:0; transform:translateY(14px) scale(0.98); } to{ opacity:1; transform:none; } }
+.modal-head{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:32px 36px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  background:rgba(78,142,162,0.08);
+  gap:20px;
+}
+.modal-head h3{ font-size:22px; }
+.modal-close{
+  width:38px; height:38px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--glass-bg-strong);
+  color:var(--heading);
+  cursor:pointer;
+  flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.modal-close svg{ width:14px; height:14px; }
+.modal-body{ padding:36px; font-size:15px; color:var(--text); }
+.modal-body p{ margin:0 0 16px; }
+.modal-body .modal-meta{
+  display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;
+}
+.modal-meta span{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--accent-dark);
+  background:rgba(255,255,255,0.091);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:4px 10px;
+  border-radius:6px;
+}
+
+/* ==========================================================================
+   ANIMATIONS: reveal on scroll
+   ========================================================================== */
+.reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.is-visible{ opacity:1; transform:none; }
+
+/* ==========================================================================
+   KNOWLEDGE BASE
+   ========================================================================== */
+.kb-hero{
+  padding:158px 0 64px;
+}
+.kb-hero h1{ font-size:clamp(30px,3.6vw,44px); max-width:20ch; margin-bottom:16px; }
+.kb-hero p{ max-width:56ch; font-size:16px; color:var(--text); }
+.kb-stats{ display:flex; gap:36px; margin-top:36px; flex-wrap:wrap; }
+.kb-stat b{ font-family:var(--font-mono); font-size:22px; color:var(--accent-dark); display:block; }
+.kb-stat span{ font-size:12.5px; color:var(--text-soft); }
+
+.kb-toolbar{
+  position:sticky;
+  top:82px;
+  z-index:50;
+  background:var(--glass-bg-strong);
+  backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid var(--glass-border);
+  padding:22px 0;
+}
+.kb-search{
+  position:relative;
+  margin-bottom:18px;
+}
+.kb-search svg{
+  position:absolute; left:20px; top:50%; transform:translateY(-50%);
+  width:18px; height:18px; color:#8CA3B6;
+}
+.kb-search input{
+  width:100%;
+  padding:16px 20px 16px 50px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.078);
+  font-size:15px;
+  font-family:var(--font-body);
+  color:var(--heading);
+}
+.kb-search input:focus{ outline:none; border-color:var(--accent); background:rgba(255,255,255,0.1); }
+
+.kb-tabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  margin-bottom:16px;
+}
+.kb-tabs::-webkit-scrollbar{ display:none; }
+.kb-tab{
+  flex:0 0 auto;
+  padding:10px 20px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.065);
+  font-size:13.5px;
+  font-weight:500;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all .2s ease;
+}
+.kb-tab:hover{ border-color:var(--accent-2); }
+.kb-tab.is-active{ background:linear-gradient(135deg, var(--navy-800), var(--blue-600)); border-color:transparent; color:#fff; }
+
+.kb-filters-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.kb-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+.kb-chip{
+  padding:7px 16px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.065);
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--text);
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.kb-chip:hover{ border-color:var(--accent-2); }
+.kb-chip.is-active{ background:rgba(78,142,162,0.18); border-color:var(--accent); color:var(--accent-dark); }
+.kb-sort{
+  display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-soft); flex-shrink:0;
+}
+.kb-sort select{
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:100px;
+  padding:9px 16px;
+  font-family:var(--font-body);
+  font-size:13px;
+  background:rgba(255,255,255,0.078);
+  color:var(--heading);
+}
+
+.kb-results-meta{
+  padding:28px 0 10px;
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  color:var(--text-soft);
+}
+.kb-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:24px;
+  padding-bottom:110px;
+}
+@media (max-width:1080px){ .kb-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:680px){ .kb-grid{ grid-template-columns:1fr; } }
+
+.kb-card{
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  padding:28px;
+  cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  display:flex;
+  flex-direction:column;
+  box-shadow:var(--shadow-glass);
+}
+.kb-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-card); background:rgba(255,255,255,0.09); }
+.kb-card-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.kb-type{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--accent-dark);
+  background:rgba(255,255,255,0.078);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:4px 9px;
+  border-radius:6px;
+}
+.kb-card-index{ font-family:var(--font-mono); font-size:11px; color:#B7C7D4; }
+.kb-card h4{ font-size:16.5px; font-family:var(--font-body); font-weight:600; margin-bottom:8px; color:var(--heading); }
+.kb-card p{ font-size:13.5px; color:var(--text); margin:0 0 18px; flex:1; }
+.kb-card-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.kb-card-tags span{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-soft); }
+.kb-card-tags span::before{ content:"#"; }
+.kb-card-bottom{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top:16px; border-top:1px dashed rgba(255,255,255,0.14);
+  font-size:12px; color:var(--text-soft);
+}
+.kb-empty{
+  text-align:center;
+  padding:90px 20px;
+  color:var(--text-soft);
+  font-size:15px;
+  display:none;
+}
+.kb-empty.is-visible{ display:block; }
+
+/* ==========================================================================
+   ARCHIVE PAGE
+   ========================================================================== */
+.archive-hero{
+  padding:158px 0 96px;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg, var(--navy-800) 0%, var(--blue-700) 100%);
+  color:#fff;
+}
+.archive-hero .grid-parallax{
+  content:"";
+  position:absolute; left:0; right:0;
+  top:-18%; height:136%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  will-change:transform;
+}
+.archive-hero .container{ position:relative; text-align:center; max-width:760px; }
+.archive-hero .mono-tag{ color:var(--blue-300); justify-content:center; margin-bottom:24px; }
+.archive-hero .mono-tag::before{ background:var(--blue-300); }
+.archive-hero h1{ color:#fff; font-size:clamp(30px,4vw,46px); margin-bottom:20px; }
+.archive-hero p{ color:rgba(255,255,255,0.78); font-size:16px; }
+
+.archive-shelf{
+  display:grid;
+  grid-template-columns:repeat(6, 1fr);
+  gap:16px;
+  margin-top:52px;
+}
+.shelf-slot{
+  aspect-ratio:3/4;
+  border:1.5px dashed rgba(255,255,255,0.3);
+  border-radius:16px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(6px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:rgba(255,255,255,0.42);
+  position:relative;
+}
+.shelf-slot::after{ content:"—"; }
+@media (max-width:760px){ .archive-shelf{ grid-template-columns:repeat(4,1fr); } }
+@media (max-width:480px){ .archive-shelf{ grid-template-columns:repeat(3,1fr); } }
+
+.archive-body{ padding:110px 0; }
+.archive-features{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:24px;
+  margin-top:20px;
+}
+.archive-feature{
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  padding:34px;
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  box-shadow:var(--shadow-glass);
+}
+.archive-feature .kb-card-index{ margin-bottom:16px; display:block; }
+.archive-feature h4{ font-size:16.5px; font-family:var(--font-body); font-weight:600; margin-bottom:8px; }
+.archive-feature p{ font-size:14px; color:var(--text); margin:0; }
+@media (max-width:760px){ .archive-features{ grid-template-columns:1fr; } }
+
+.archive-notify{
+  margin-top:60px;
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  padding:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+  box-shadow:var(--shadow-glass);
+}
+.archive-notify h4{ font-size:19px; margin-bottom:6px; }
+.archive-notify p{ margin:0; font-size:14px; color:var(--text); max-width:44ch; }
+.archive-notify form{ display:flex; gap:10px; flex-wrap:wrap; }
+.archive-notify input{
+  padding:14px 20px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.078);
+  min-width:240px;
+  font-size:14px;
+  font-family:var(--font-body);
+}
+.archive-notify input:focus{ outline:none; border-color:var(--accent); }
+
+/* ==========================================================================
+   UTILITIES
+   ========================================================================== */
+.text-center{ text-align:center; }
+.mt-32{ margin-top:32px; }
+@media (max-width:700px){ .hide-mobile{ display:none; } }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <button type="button" class="brand" data-scroll-top aria-label="Наверх страницы"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Илья Солдатко</span><span class="brand-role">Врач-рентгенолог</span></span></button>
+    <ul class="nav-links">
+      <li><button type="button" class="nav-link-btn" data-scroll="#about">О враче</button></li>
+      <li><button type="button" class="nav-link-btn" data-scroll="#directions">Направления</button></li>
+      <li><button type="button" class="nav-link-btn" data-scroll="#publications">Публикации</button></li>
+      <li><a href="knowledge-base.html">База знаний и литература</a></li>
+      <li><a href="archive.html">Инструменты</a></li>
+      <li><button type="button" class="nav-link-btn" data-scroll="#contact">Контакты</button></li>
+      <li><button type="button" class="nav-cta" data-scroll="#consultation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 5.8L20 9l-4.8 3.9L16.5 19 12 15.7 7.5 19l1.3-6.1L4 9l5.6-1.2L12 2z"/></svg>Консультация</button></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Открыть меню" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" data-slice data-slice-label="Главная">
+  <div class="hero-grid" data-parallax-speed="0.18" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-copy">
+      <span class="mono-tag">Лучевая диагностика · база знаний</span>
+      <h1>Илья Солдатко читает изображения <em>по срезам</em> — и делится тем, что видит.</h1>
+      <p class="lead">Илья Солдатко — врач-рентгенолог, систематизирует опыт клинической практики, разборы исследований и случаи из практики в одном месте — для студентов медицинских вузов, врачей и клинических ординаторов.</p>
+      <blockquote class="hero-tagline">
+        <p>«Распознав болезни скрытого течения,<br>нам искусный медик дарит исцеление»</p>
+        <cite>— Абу Али Ибн Сина</cite>
+      </blockquote>
+      <div class="hero-actions">
+        <a href="knowledge-base.html" class="btn btn-primary">
+          Перейти в базу знаний
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="grid-overlay" aria-hidden="true"></div>
+      <div class="scanline" aria-hidden="true"></div>
+      <div class="corner tl" aria-hidden="true"></div>
+      <div class="corner tr" aria-hidden="true"></div>
+      <div class="corner bl" aria-hidden="true"></div>
+      <div class="corner br" aria-hidden="true"></div>
+      <div class="portrait-figure">
+        <svg viewBox="0 0 220 260" aria-hidden="true">
+          <defs>
+            <linearGradient id="portraitGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6EA2B3" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#6EA2B3" stop-opacity="0.15"/>
+            </linearGradient>
+          </defs>
+          <path d="M110 18c-34 0-56 26-56 62 0 24 8 40 18 52-4 10-16 18-32 22-6 26 6 46 6 46h128s12-20 6-46c-16-4-28-12-32-22 10-12 18-28 18-52 0-36-22-62-56-62z" fill="url(#portraitGrad)" stroke="#fff" stroke-width="1" stroke-opacity="0.25"/>
+          <g stroke="#fff" stroke-opacity="0.35" stroke-width="0.6">
+            <line x1="20" y1="60" x2="200" y2="60"/>
+            <line x1="20" y1="100" x2="200" y2="100"/>
+            <line x1="20" y1="140" x2="200" y2="140"/>
+            <line x1="20" y1="180" x2="200" y2="180"/>
+            <line x1="20" y1="220" x2="200" y2="220"/>
+          </g>
+        </svg>
+      </div>
+      <div class="scan-hud" aria-hidden="true">
+        <span>ИС / RX-018</span>
+        <span>SLICE 042 / 128</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section-alt" data-slice data-slice-label="О враче">
+  <div class="section-parallax-grid" data-parallax-speed="0.08" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Протокол · специалист</span>
+        <h2 class="text-gradient">О враче</h2>
+      </div>
+      <p class="desc">Клинический опыт, образование и профессиональные интересы — в формате, привычном рентгенологу: как разбор исследования.</p>
+    </div>
+
+    <div class="report-card reveal">
+      <div class="report-card-top">
+        <span>ОТЧЁТ · СПЕЦИАЛИСТ RX-018</span>
+        <span>Илья Солдатко · Рентгенолог</span>
+      </div>
+      <div class="report-fields">
+        <div class="report-field">
+          <div class="report-field-label">
+            <span class="slice-index">SL.01</span>
+            <h4>Анамнез</h4>
+          </div>
+          <p>Специализируется на лучевой диагностике, работает с КТ и МРТ-исследованиями широкого профиля — от неотложных состояний до онкологической и неврологической диагностики. Убеждён, что качество заключения определяется не оборудованием, а системным клиническим мышлением врача.</p>
+        </div>
+        <div class="report-field">
+          <div class="report-field-label">
+            <span class="slice-index">SL.02</span>
+            <h4>Подход к практике</h4>
+          </div>
+          <p>Уделяет особое внимание структурному разбору каждого исследования и постоянному повышению квалификации — считает системный подход важнее количества лет за плечами.</p>
+        </div>
+        <div class="report-field">
+          <div class="report-field-label">
+            <span class="slice-index">SL.03</span>
+            <h4>Образование</h4>
+          </div>
+          <ul>
+            <li>Высшее медицинское образование, специальность «Лечебное дело»</li>
+            <li>Ординатура по рентгенологии</li>
+            <li>Повышение квалификации на базе НИИ им. Н.В. Склифосовского</li>
+          </ul>
+        </div>
+        <div class="report-field">
+          <div class="report-field-label">
+            <span class="slice-index">SL.04</span>
+            <h4>Профессиональные интересы и достижения</h4>
+          </div>
+          <p>Систематизация клинических случаев для обучения молодых специалистов, разбор сложных и атипичных находок, преподавание принципов структурного чтения исследований. Автор материалов базы знаний этого проекта.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIRECTIONS ============ -->
+<section id="directions" data-slice data-slice-label="Направления">
+  <div class="section-parallax-grid" data-parallax-speed="0.06" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Карта исследований</span>
+        <h2 class="text-gradient">Направления диагностики</h2>
+      </div>
+      <p class="desc">Нажмите на карточку, чтобы раскрыть, какие находки и клинические задачи охватывает направление.</p>
+    </div>
+
+    <div class="directions-grid reveal">
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">01 / Урология</span>
+        <h4>Урология</h4>
+        <p>КТ и МРТ почек, мочевыводящих путей, объёмные образования, конкременты, урологическая онкология.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">02 / Неврология</span>
+        <h4>Неврология</h4>
+        <p>МРТ головного и спинного мозга, сосудистые находки, демиелинизация, посттравматические изменения.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">03 / Онкология</span>
+        <h4>Онкология</h4>
+        <p>Стадирование, оценка динамики, дифференциальная диагностика объёмных образований разной локализации.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">04 / Пульмонология</span>
+        <h4>Пульмонология</h4>
+        <p>КТ органов грудной клетки, интерстициальные изменения, объёмные образования лёгких, ТЭЛА.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">05 / Кардиология</span>
+        <h4>Кардиология</h4>
+        <p>КТ-коронарография, оценка кальциноза, состояние крупных сосудов и перикарда.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">06 / Гастроэнтерология</span>
+        <h4>Гастроэнтерология</h4>
+        <p>КТ и МРТ органов брюшной полости, печени, поджелудочной железы, кишечника.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">07 / Травматология</span>
+        <h4>Травматология</h4>
+        <p>КТ костей и суставов, переломы, посттравматические и дегенеративные изменения.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+      <div class="direction-card" tabindex="0">
+        <span class="direction-index">08 / Другое</span>
+        <h4>Другие направления</h4>
+        <p>Смежные и редкие клинические задачи, которые не укладываются в стандартные профили.</p>
+        <span class="plus" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publications" class="section-alt" data-slice data-slice-label="Публикации">
+  <div class="section-parallax-grid" data-parallax-speed="0.12" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Лента · срезы 01–04</span>
+        <h2 class="text-gradient">Последние публикации</h2>
+      </div>
+      <p class="desc">Разборы, статьи и заметки из практики — полный список в базе знаний.</p>
+    </div>
+
+    <div class="filmstrip-wrap reveal">
+      <div class="filmstrip">
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Статья</span>
+            <h4>Структурный подход к чтению КТ грудной клетки</h4>
+            <p>Как выстроить последовательность просмотра среза за срезом, чтобы не пропустить случайную находку.</p>
+            <div class="film-meta"><span>PULM</span><span>12 мин</span></div>
+          </div>
+        </article>
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Разбор случая</span>
+            <h4>Атипичная находка при МРТ поясничного отдела</h4>
+            <p>Клинический случай с разбором дифференциальной диагностики и итоговым заключением.</p>
+            <div class="film-meta"><span>NEURO</span><span>8 мин</span></div>
+          </div>
+        </article>
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Лекция</span>
+            <h4>Протоколы описания при онкопоиске</h4>
+            <p>Единый шаблон заключения, ускоряющий работу и снижающий вероятность ошибки.</p>
+            <div class="film-meta"><span>ONCO</span><span>24 мин</span></div>
+          </div>
+        </article>
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Рекомендация</span>
+            <h4>Когда назначать КТ, а когда МРТ</h4>
+            <p>Практическая шпаргалка для лечащих врачей по выбору метода лучевой диагностики.</p>
+            <div class="film-meta"><span>ОБЩЕЕ</span><span>6 мин</span></div>
+          </div>
+        </article>
+      </div>
+      <div class="filmstrip-nav">
+        <button type="button" data-strip-prev aria-label="Предыдущие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" data-strip-next aria-label="Следующие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLINICAL CASES ============ -->
+<section id="cases" data-slice data-slice-label="Клинические случаи">
+  <div class="section-parallax-grid" data-parallax-speed="0.09" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Лента · срезы 05–08</span>
+        <h2 class="text-gradient">Последние клинические случаи</h2>
+      </div>
+      <p class="desc">Реальные случаи из практики с последовательностью снимков и итоговым заключением.</p>
+    </div>
+
+    <div class="filmstrip-wrap reveal">
+      <div class="filmstrip">
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Случай №118</span>
+            <h4>Случайная находка при скрининговой КТ</h4>
+            <p>Пациент без жалоб, находка потребовала дополнительного дообследования и динамического наблюдения.</p>
+            <div class="film-meta"><span>ONCO</span><span>КТ</span></div>
+          </div>
+        </article>
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Случай №119</span>
+            <h4>Дифференциальная диагностика объёмного образования почки</h4>
+            <p>Разбор нескольких методов визуализации для уточнения характера образования.</p>
+            <div class="film-meta"><span>УРОЛ</span><span>МРТ</span></div>
+          </div>
+        </article>
+        <article class="film-card">
+          <div class="film-card-strip"></div>
+          <div class="film-card-body">
+            <span class="film-tag">Случай №120</span>
+            <h4>Посттравматические изменения коленного сустава</h4>
+            <p>Сопоставление рентгенографии и МРТ для полной клинической картины.</p>
+            <div class="film-meta"><span>ТРАВМА</span><span>МРТ</span></div>
+          </div>
+        </article>
+      </div>
+      <div class="filmstrip-nav">
+        <button type="button" data-strip-prev aria-label="Предыдущие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" data-strip-next aria-label="Следующие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONSULTATION (paid) ============ -->
+<section id="consultation" class="section-alt" data-slice data-slice-label="Консультация">
+  <div class="section-parallax-grid" data-parallax-speed="0.11" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Платно · по записи</span>
+        <h2 class="text-gradient">Консультация</h2>
+      </div>
+      <p class="desc">Разбор снимков, второе мнение по заключению или разговор по сложному случаю — оставьте заявку, я свяжусь с вами, чтобы согласовать формат и стоимость.</p>
+    </div>
+
+    <div class="contact-grid reveal">
+      <div class="contact-info-card">
+        <h3>Что входит в консультацию</h3>
+        <ul class="consult-list">
+          <li>Разбор присланных снимков КТ или МРТ</li>
+          <li>Второе мнение по имеющемуся заключению</li>
+          <li>Разбор сложного клинического случая</li>
+        </ul>
+        <p>Формат (онлайн или очно), длительность и стоимость обсуждаются индивидуально после заявки — они зависят от объёма материала.</p>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+          <span>Отвечаю на заявки в течение 1–2 рабочих дней</span>
+        </div>
+      </div>
+
+      <form class="contact-form" id="consultation-form">
+        <div class="form-row">
+          <label for="c-name">Имя</label>
+          <input type="text" id="c-name" name="name" required placeholder="Как к вам обращаться">
+        </div>
+        <div class="form-row">
+          <label for="c-phone">Телефон</label>
+          <input type="tel" id="c-phone" name="phone" required placeholder="+7 900 000-00-00">
+        </div>
+        <div class="form-row">
+          <label for="c-message">Кратко о вопросе (необязательно)</label>
+          <textarea id="c-message" name="message" placeholder="Например: нужен разбор снимка КТ грудной клетки"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Оставить заявку на консультацию</button>
+        <div class="form-success">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          Спасибо! Как только форма будет подключена, заявка попадёт напрямую ко мне, и я свяжусь с вами по телефону.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" data-slice data-slice-label="Контакты">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Связь</span>
+        <h2 class="text-gradient">Контакты</h2>
+      </div>
+      <p class="desc">Вопросы по материалам базы знаний или предложения сотрудничества.</p>
+    </div>
+
+    <div class="contact-single reveal">
+      <div class="contact-info-card">
+        <h3>Илья Солдатко</h3>
+        <p>Врач-рентгенолог. Отвечаю на профессиональные вопросы коллег и предложения по совместным разборам случаев.</p>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M3 7l9 6 9-6M4 5h16v14H4z"/></svg>
+          <span>contact@soldatko-rx.ru</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></svg>
+          <span>Ответ в течение 1–2 рабочих дней</span>
+        </div>
+        <div class="social-row">
+          <a href="#" aria-label="Telegram">TG</a>
+          <a href="#" aria-label="ВКонтакте">VK</a>
+          <a href="#" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+      <div class="social-tiles">
+        <a href="#" class="social-tile">
+          <span class="social-tile-icon">TG</span>
+          <span class="social-tile-text"><strong>Telegram</strong><small>Быстрые вопросы и разборы случаев</small></span>
+        </a>
+        <a href="#" class="social-tile">
+          <span class="social-tile-icon">VK</span>
+          <span class="social-tile-text"><strong>ВКонтакте</strong><small>Новости и анонсы публикаций</small></span>
+        </a>
+        <a href="#" class="social-tile">
+          <span class="social-tile-icon">YT</span>
+          <span class="social-tile-text"><strong>YouTube</strong><small>Видео-разборы исследований</small></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>© 2026 Илья Солдатко. Материалы для профессионального сообщества.</span>
+    <span><a href="knowledge-base.html">База знаний и литература</a> · <a href="archive.html">Инструменты</a></span>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   SHARED BEHAVIOR — nav, scan ruler, reveals, accordions,
+   filmstrip nav, modal, contact form
+   ========================================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---------- parallax grid layers (hero, section grids, archive) ---------- */
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const parallaxLayers = Array.from(document.querySelectorAll('[data-parallax-speed]'))
+    .map(el => ({
+      el,
+      section: el.closest('section, header'),
+      speed: parseFloat(el.dataset.parallaxSpeed) || 0.12
+    }))
+    .filter(p => p.section);
+
+  if (parallaxLayers.length && !prefersReducedMotion) {
+    let ticking = false;
+    const updateParallax = () => {
+      parallaxLayers.forEach(({ el, section, speed }) => {
+        const rect = section.getBoundingClientRect();
+        // only bother updating while the section is anywhere near the viewport
+        if (rect.bottom > -200 && rect.top < window.innerHeight + 200) {
+          el.style.transform = `translateY(${rect.top * speed}px)`;
+        }
+      });
+      ticking = false;
+    };
+    updateParallax();
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+    window.addEventListener('resize', updateParallax);
+  }
+
+  /* ---------- mobile nav ---------- */
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('is-open');
+      const expanded = navLinks.classList.contains('is-open');
+      navToggle.setAttribute('aria-expanded', expanded);
+    });
+  }
+
+  /* ---------- instant-jump helper (overrides the global smooth scroll-behavior) ---------- */
+  const jumpTo = (target) => {
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    target.scrollIntoView({ block: 'start' });
+    html.style.scrollBehavior = prev;
+  };
+
+  /* ---------- brand logo: instant scroll to the very top, from anywhere on the page ---------- */
+  document.querySelectorAll('[data-scroll-top]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const html = document.documentElement;
+      const prev = html.style.scrollBehavior;
+      html.style.scrollBehavior = 'auto';
+      window.scrollTo({ top: 0 });
+      html.style.scrollBehavior = prev;
+      if (navLinks && navLinks.classList.contains('is-open')) {
+        navLinks.style.transition = 'none';
+        navLinks.classList.remove('is-open');
+        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { navLinks.style.transition = ''; });
+        });
+      }
+    });
+  });
+
+  /* ---------- in-page navigation: buttons/anchors that scroll manually (never a real browser navigation) ---------- */
+  document.querySelectorAll('a[href^="#"], [data-scroll]').forEach(el => {
+    const hash = el.getAttribute('data-scroll') || el.getAttribute('href');
+    if (!hash || hash.length < 2) return;
+    const target = document.querySelector(hash);
+    if (!target) return;
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      jumpTo(target);
+      if (navLinks && navLinks.classList.contains('is-open')) {
+        navLinks.style.transition = 'none';
+        navLinks.classList.remove('is-open');
+        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { navLinks.style.transition = ''; });
+        });
+      }
+    });
+  });
+
+  /* ---------- scroll reveal ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  /* ---------- direction accordion cards ---------- */
+  document.querySelectorAll('.direction-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('is-open');
+    });
+  });
+
+  /* ---------- filmstrip nav: cards always land centered ---------- */
+  document.querySelectorAll('.filmstrip-wrap').forEach(wrap => {
+    const strip = wrap.querySelector('.filmstrip');
+    const prevBtn = wrap.querySelector('[data-strip-prev]');
+    const nextBtn = wrap.querySelector('[data-strip-next]');
+    if (!strip) return;
+    const cards = Array.from(strip.querySelectorAll('.film-card'));
+    if (!cards.length) return;
+
+    const updateSidePadding = () => {
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      const pad = Math.max(16, (strip.clientWidth - cardWidth) / 2);
+      strip.style.paddingLeft = pad + 'px';
+      strip.style.paddingRight = pad + 'px';
+    };
+    updateSidePadding();
+    window.addEventListener('resize', updateSidePadding);
+
+    const getCurrentIndex = () => {
+      const center = strip.scrollLeft + strip.clientWidth / 2;
+      let closest = 0;
+      let minDist = Infinity;
+      cards.forEach((card, i) => {
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const dist = Math.abs(cardCenter - center);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      return closest;
+    };
+
+    const goTo = (index) => {
+      const clamped = Math.max(0, Math.min(cards.length - 1, index));
+      cards[clamped].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    };
+
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(getCurrentIndex() - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(getCurrentIndex() + 1));
+  });
+
+  /* ---------- generic modal system ---------- */
+  const backdrop = document.querySelector('.modal-backdrop');
+  if (backdrop) {
+    const panel = backdrop.querySelector('.modal-panel');
+    const titleEl = backdrop.querySelector('[data-modal-title]');
+    const metaEl = backdrop.querySelector('[data-modal-meta]');
+    const bodyEl = backdrop.querySelector('[data-modal-body]');
+    const closeBtn = backdrop.querySelector('.modal-close');
+
+    window.openModal = ({ title, meta = [], body }) => {
+      if (titleEl) titleEl.textContent = title;
+      if (metaEl) metaEl.innerHTML = meta.map(m => `<span>${m}</span>`).join('');
+      if (bodyEl) bodyEl.innerHTML = body;
+      backdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      panel && panel.focus();
+    };
+    const close = () => {
+      backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    };
+    closeBtn && closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', (e) => { if (e.target === backdrop) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  }
+
+  /* ---------- lead forms (no backend yet — front-end only confirmation) ---------- */
+  document.querySelectorAll('#contact-form, #consultation-form').forEach(formEl => {
+    formEl.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const success = formEl.querySelector('.form-success');
+      if (success) success.classList.add('is-visible');
+      formEl.reset();
+    });
+  });
+
+});
+
+</script>
+</body>
+</html>

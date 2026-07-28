@@ -1270,14 +1270,16 @@ footer a:hover{ text-decoration:underline; }
 .atlas-overlay-head{
   display:flex; justify-content:space-between; align-items:flex-start;
   gap:20px;
-  margin:-28px calc(-1 * clamp(20px,5vw,64px)) 30px;
+  margin:-28px calc(-1 * clamp(20px,5vw,64px)) 20px;
   padding:28px clamp(20px,5vw,64px) 20px;
   position:sticky; top:0;
   z-index:5;
-  background:rgba(2,7,14,0.97);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
+  background:transparent;
+  pointer-events:none;
 }
+.atlas-overlay-head > div{ transition:opacity .25s ease, transform .25s ease; }
+.atlas-overlay-head.is-scrolled > div{ opacity:0; transform:translateY(-6px); }
+.atlas-overlay-head .modal-close{ pointer-events:auto; }
 .atlas-overlay-head h3{ font-family:var(--font-display); font-size:23px; color:var(--heading); margin-top:8px; }
 .atlas-grid{
   display:grid;
@@ -1403,35 +1405,44 @@ footer a:hover{ text-decoration:underline; }
   position:fixed; inset:0; z-index:260;
   background:rgba(0,0,0,0.96);
   display:none;
+  flex-direction:column;
   align-items:center; justify-content:center;
+  padding:20px;
+  gap:18px;
 }
 .atlas-viewer.is-open{ display:flex; }
 .atlas-viewer-frame{
   position:relative;
-  max-width:min(92vw, 1100px);
-  max-height:82vh;
+  max-width:96vw;
+  max-height:84vh;
+  display:flex;
 }
-.atlas-viewer-frame img{ max-width:100%; max-height:82vh; display:block; border-radius:8px; box-shadow:0 24px 70px rgba(0,0,0,.65); }
+.atlas-viewer-frame img{ max-width:96vw; max-height:84vh; width:auto; height:auto; display:block; border-radius:8px; box-shadow:0 24px 70px rgba(0,0,0,.65); image-rendering:auto; }
+.atlas-viewer-controls{
+  display:flex; align-items:center; justify-content:center; gap:20px;
+  flex-shrink:0;
+}
 .atlas-viewer-count{
-  position:absolute; bottom:-36px; left:50%; transform:translateX(-50%);
   font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; color:var(--text-soft);
   white-space:nowrap;
+  min-width:150px; text-align:center;
 }
 .atlas-viewer-close{
   position:absolute; top:24px; right:24px;
 }
 .atlas-viewer-nav{
-  width:52px; height:52px; border-radius:50%; flex-shrink:0;
+  width:48px; height:48px; border-radius:50%; flex-shrink:0;
   background:var(--glass-bg-strong); border:1px solid var(--glass-border);
   color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;
-  margin:0 22px;
   transition:background .2s ease, transform .2s ease;
 }
 .atlas-viewer-nav:hover{ background:rgba(255,255,255,0.16); transform:scale(1.05); }
-.atlas-viewer-nav svg{ width:22px; height:22px; }
+.atlas-viewer-nav svg{ width:20px; height:20px; }
 @media (max-width:640px){
-  .atlas-viewer-nav{ width:40px; height:40px; margin:0 8px; }
+  .atlas-viewer-nav{ width:42px; height:42px; }
   .atlas-viewer-close{ top:16px; right:16px; }
+  .atlas-viewer-frame{ max-height:76vh; }
+  .atlas-viewer-frame img{ max-height:76vh; }
 }
 
 /* ==========================================================================
@@ -1715,12 +1726,14 @@ footer a:hover{ text-decoration:underline; }
 <!-- atlas: fullscreen single-slice viewer -->
 <div class="atlas-viewer" id="atlas-viewer" aria-hidden="true">
   <button class="modal-close atlas-viewer-close" id="atlas-viewer-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <button class="atlas-viewer-nav" id="atlas-prev" aria-label="Предыдущий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
   <div class="atlas-viewer-frame">
     <img id="atlas-viewer-img" src="" alt="">
-    <span class="atlas-viewer-count" id="atlas-viewer-count"></span>
   </div>
-  <button class="atlas-viewer-nav" id="atlas-next" aria-label="Следующий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+  <div class="atlas-viewer-controls">
+    <button class="atlas-viewer-nav" id="atlas-prev" aria-label="Предыдущий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <span class="atlas-viewer-count" id="atlas-viewer-count"></span>
+    <button class="atlas-viewer-nav" id="atlas-next" aria-label="Следующий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
 </div>
 
 <!-- atlas 2: grid of all slice thumbnails -->
@@ -1738,13 +1751,16 @@ footer a:hover{ text-decoration:underline; }
 <!-- atlas 2: fullscreen single-slice viewer -->
 <div class="atlas-viewer" id="atlas2-viewer" aria-hidden="true">
   <button class="modal-close atlas-viewer-close" id="atlas2-viewer-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <button class="atlas-viewer-nav" id="atlas2-prev" aria-label="Предыдущий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
   <div class="atlas-viewer-frame">
     <img id="atlas2-viewer-img" src="" alt="">
-    <span class="atlas-viewer-count" id="atlas2-viewer-count"></span>
   </div>
-  <button class="atlas-viewer-nav" id="atlas2-next" aria-label="Следующий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+  <div class="atlas-viewer-controls">
+    <button class="atlas-viewer-nav" id="atlas2-prev" aria-label="Предыдущий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <span class="atlas-viewer-count" id="atlas2-viewer-count"></span>
+    <button class="atlas-viewer-nav" id="atlas2-next" aria-label="Следующий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
 </div>
+
 
 <!-- literature: fullscreen PDF reader -->
 <div class="pdf-reader" id="pdf-reader" aria-hidden="true">
@@ -2135,6 +2151,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
   const openBtn = document.getElementById('atlas-open-btn');
   const overlay = document.getElementById('atlas-overlay');
   const overlayClose = document.getElementById('atlas-overlay-close');
+  const overlayHead = overlay ? overlay.querySelector('.atlas-overlay-head') : null;
   const grid = document.getElementById('atlas-grid');
   const viewer = document.getElementById('atlas-viewer');
   const viewerClose = document.getElementById('atlas-viewer-close');
@@ -2164,6 +2181,10 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
     });
     gridBuilt = true;
   }
+
+  overlay.addEventListener('scroll', () => {
+    if (overlayHead) overlayHead.classList.toggle('is-scrolled', overlay.scrollTop > 4);
+  });
 
   function openOverlay(){
     buildGrid();
@@ -2236,6 +2257,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
   const openBtn = document.getElementById('atlas2-open-btn');
   const overlay = document.getElementById('atlas2-overlay');
   const overlayClose = document.getElementById('atlas2-overlay-close');
+  const overlayHead = overlay ? overlay.querySelector('.atlas-overlay-head') : null;
   const grid = document.getElementById('atlas2-grid');
   const viewer = document.getElementById('atlas2-viewer');
   const viewerClose = document.getElementById('atlas2-viewer-close');
@@ -2265,6 +2287,10 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
     });
     gridBuilt = true;
   }
+
+  overlay.addEventListener('scroll', () => {
+    if (overlayHead) overlayHead.classList.toggle('is-scrolled', overlay.scrollTop > 4);
+  });
 
   function openOverlay(){
     buildGrid();

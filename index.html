@@ -990,6 +990,9 @@ footer a:hover{ text-decoration:underline; }
 .modal-close svg{ width:14px; height:14px; }
 .modal-body{ padding:36px; font-size:15px; color:var(--text); }
 .modal-body p{ margin:0 0 16px; }
+.modal-body ul{ list-style:none; padding:0; margin:0 0 16px; display:flex; flex-direction:column; gap:10px; }
+.modal-body li{ display:flex; gap:10px; align-items:flex-start; }
+.modal-body li::before{ content:"•"; color:var(--accent); flex-shrink:0; line-height:1.6; }
 .modal-body .modal-meta{
   display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;
 }

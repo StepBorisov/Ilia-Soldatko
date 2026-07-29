@@ -1258,9 +1258,7 @@ footer a:hover{ text-decoration:underline; }
 /* ---------- atlas grid overlay ---------- */
 .atlas-overlay{
   position:fixed; inset:0; z-index:220;
-  background:rgba(2,7,14,0.94);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
+  background:#050d16;
   display:none;
   flex-direction:column;
   padding:28px clamp(20px,5vw,64px) 60px;
@@ -1373,8 +1371,7 @@ footer a:hover{ text-decoration:underline; }
 .pdf-reader{
   position:fixed; inset:0; z-index:260;
   display:none; flex-direction:column;
-  background:rgba(6,18,30,0.94);
-  backdrop-filter:blur(4px);
+  background:#06121e;
 }
 .pdf-reader.is-open{ display:flex; }
 .pdf-reader-head{
@@ -1403,7 +1400,7 @@ footer a:hover{ text-decoration:underline; }
 /* ---------- atlas fullscreen viewer ---------- */
 .atlas-viewer{
   position:fixed; inset:0; z-index:260;
-  background:rgba(0,0,0,0.96);
+  background:#000000;
   display:none;
   flex-direction:column;
   align-items:center; justify-content:center;
@@ -2379,7 +2376,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
 
   // file: null пока файл не прислан — карточка отображается как "скоро"
   const books = [
-    { file: 'prokop-ct-body.pdf', title: 'Prokop M., Galanski M. — Spiral and Multislice Computed Tomography of the Body', desc: 'Фундаментальное руководство по спиральной и мультиспиральной КТ всего тела.', size: null, cover: 1 },
+    { file: 'prokop-ct-body.pdf', title: 'Prokop M., Galanski M. — Spiral and Multislice Computed Tomography of the Body', desc: 'Фундаментальное руководство по спиральной и мультиспиральной КТ всего тела.', size: '88,7 МБ', cover: 1 },
     { file: 'atlas-sektsionnoy-anatomii-t1.pdf', title: 'Мёллер Т.Б., Райф Э. — Атлас секционной анатомии человека. Т.1: Голова и шея', desc: 'КТ- и МРТ-срезы с подробной анатомической разметкой.', size: '46,8 МБ', cover: 2 },
     { file: 'atlas-sektsionnoy-anatomii-t3.pdf', title: 'Мёллер Т.Б., Райф Э. — Атлас секционной анатомии человека. Т.3: Позвоночник, конечности, суставы', desc: 'КТ- и МРТ-срезы с подробной анатомической разметкой.', size: '37,7 МБ', cover: 3 },
     { file: 'glossariy-torakalnoy-vizualizatsii.pdf', title: 'Глоссарий терминов торакальной визуализации (РОРР)', desc: 'Справочник терминологии для описания исследований грудной клетки.', size: '4,9 МБ', cover: 4 },

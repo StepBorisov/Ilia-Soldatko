@@ -1624,32 +1624,14 @@ footer a:hover{ text-decoration:underline; }
     <div class="atlas-banner-visual">
       <img class="atlas-banner-img atlas-banner-img--1" src="assets/atlas-yudin/slice-02.jpg" alt="" loading="lazy">
       <img class="atlas-banner-img atlas-banner-img--2" src="assets/atlas-yudin/slice-24.jpg" alt="" loading="lazy">
-      <img class="atlas-banner-img atlas-banner-img--3" src="assets/atlas-yudin/slice-40.jpg" alt="" loading="lazy">
-      <span class="atlas-banner-count"><span id="atlas-total-count">53</span> срезов</span>
+      <img class="atlas-banner-img atlas-banner-img--3" src="assets/atlas-yudin/slice2-18.jpg" alt="" loading="lazy">
+      <span class="atlas-banner-count"><span id="atlas-total-count">88</span> срезов</span>
     </div>
     <div class="atlas-banner-text">
       <span class="kb-type">Атлас · литература</span>
-      <h3>Анатомия человека в аксиальной проекции (Юдин)</h3>
-      <p>Иллюстрированный атлас срезов головы, шеи и плечевого пояса с подписанной анатомией — оригинальные страницы источника, без сокращений и переверстки текста.</p>
+      <h3>Юдин — Анатомия человека в аксиальной проекции</h3>
+      <p>Иллюстрированный атлас поперечных (аксиальных) срезов — от головы и шеи до малого таза, с подписанной анатомией и лимфоузлами. Оригинальные страницы источника, без сокращений.</p>
       <button class="btn btn-primary" type="button" id="atlas-open-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Открыть атлас
-      </button>
-    </div>
-  </article>
-
-  <article class="atlas-banner reveal" style="margin-top:20px;">
-    <div class="atlas-banner-visual">
-      <img class="atlas-banner-img atlas-banner-img--1" src="assets/atlas-yudin/slice2-05.jpg" alt="" loading="lazy">
-      <img class="atlas-banner-img atlas-banner-img--2" src="assets/atlas-yudin/slice2-18.jpg" alt="" loading="lazy">
-      <img class="atlas-banner-img atlas-banner-img--3" src="assets/atlas-yudin/slice2-30.jpg" alt="" loading="lazy">
-      <span class="atlas-banner-count"><span id="atlas2-total-count">35</span> срезов</span>
-    </div>
-    <div class="atlas-banner-text">
-      <span class="kb-type">Атлас · литература</span>
-      <h3>КТ-анатомия груди, живота и таза в поперечных срезах</h3>
-      <p>Иллюстрированный атлас поперечных (аксиальных) КТ-срезов с подписанной анатомией и лимфоузлами — от грудной клетки до малого таза. Оригинальные страницы источника, без сокращений.</p>
-      <button class="btn btn-primary" type="button" id="atlas2-open-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
         Открыть атлас
       </button>
@@ -1730,31 +1712,6 @@ footer a:hover{ text-decoration:underline; }
     <button class="atlas-viewer-nav" id="atlas-prev" aria-label="Предыдущий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
     <span class="atlas-viewer-count" id="atlas-viewer-count"></span>
     <button class="atlas-viewer-nav" id="atlas-next" aria-label="Следующий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-  </div>
-</div>
-
-<!-- atlas 2: grid of all slice thumbnails -->
-<div class="atlas-overlay" id="atlas2-overlay" aria-hidden="true">
-  <div class="atlas-overlay-head">
-    <div>
-      <span class="mono-tag">Атлас · КТ-анатомия груди, живота и таза</span>
-      <h3>Все страницы (<span id="atlas2-grid-count">35</span>)</h3>
-    </div>
-    <button class="modal-close" id="atlas2-overlay-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </div>
-  <div class="atlas-grid" id="atlas2-grid"></div>
-</div>
-
-<!-- atlas 2: fullscreen single-slice viewer -->
-<div class="atlas-viewer" id="atlas2-viewer" aria-hidden="true">
-  <button class="modal-close atlas-viewer-close" id="atlas2-viewer-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <div class="atlas-viewer-frame">
-    <img id="atlas2-viewer-img" src="" alt="">
-  </div>
-  <div class="atlas-viewer-controls">
-    <button class="atlas-viewer-nav" id="atlas2-prev" aria-label="Предыдущий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-    <span class="atlas-viewer-count" id="atlas2-viewer-count"></span>
-    <button class="atlas-viewer-nav" id="atlas2-next" aria-label="Следующий срез"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
 </div>
 
@@ -2161,13 +2118,21 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
    Grid of scanned pages + fullscreen slice-by-slice viewer.
    ========================================================= */
 (() => {
-  const ATLAS_TOTAL = 53;
+  const ATLAS_TOTAL_1 = 53;
+  const ATLAS_TOTAL_2 = 35;
+  const ATLAS_TOTAL = ATLAS_TOTAL_1 + ATLAS_TOTAL_2;
   const ATLAS_BASE = 'assets/atlas-yudin/';
 
-  const atlasSlices = Array.from({ length: ATLAS_TOTAL }, (_, i) => {
-    const n = String(i + 1).padStart(2, '0');
-    return { index: i, num: i + 1, full: `${ATLAS_BASE}slice-${n}.jpg`, thumb: `${ATLAS_BASE}slice-${n}.jpg` };
-  });
+  const atlasSlices = [
+    ...Array.from({ length: ATLAS_TOTAL_1 }, (_, i) => {
+      const n = String(i + 1).padStart(2, '0');
+      return { index: i, num: i + 1, full: `${ATLAS_BASE}slice-${n}.jpg`, thumb: `${ATLAS_BASE}slice-${n}.jpg` };
+    }),
+    ...Array.from({ length: ATLAS_TOTAL_2 }, (_, i) => {
+      const n = String(i + 1).padStart(2, '0');
+      return { index: ATLAS_TOTAL_1 + i, num: ATLAS_TOTAL_1 + i + 1, full: `${ATLAS_BASE}slice2-${n}.jpg`, thumb: `${ATLAS_BASE}slice2-${n}.jpg` };
+    }),
+  ];
 
   const openBtn = document.getElementById('atlas-open-btn');
   const overlay = document.getElementById('atlas-overlay');
@@ -2262,111 +2227,6 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
   });
 })();
 
-/* =========================================================
-   ATLAS GALLERY 2 — "КТ-анатомия груди, живота и таза"
-   Grid of scanned pages + fullscreen slice-by-slice viewer.
-   ========================================================= */
-(() => {
-  const ATLAS_TOTAL = 35;
-  const ATLAS_BASE = 'assets/atlas-yudin/';
-
-  const atlasSlices = Array.from({ length: ATLAS_TOTAL }, (_, i) => {
-    const n = String(i + 1).padStart(2, '0');
-    return { index: i, num: i + 1, full: `${ATLAS_BASE}slice2-${n}.jpg`, thumb: `${ATLAS_BASE}slice2-${n}.jpg` };
-  });
-
-  const openBtn = document.getElementById('atlas2-open-btn');
-  const overlay = document.getElementById('atlas2-overlay');
-  const overlayClose = document.getElementById('atlas2-overlay-close');
-  const overlayHead = overlay ? overlay.querySelector('.atlas-overlay-head') : null;
-  const grid = document.getElementById('atlas2-grid');
-  const viewer = document.getElementById('atlas2-viewer');
-  const viewerClose = document.getElementById('atlas2-viewer-close');
-  const viewerImg = document.getElementById('atlas2-viewer-img');
-  const viewerCount = document.getElementById('atlas2-viewer-count');
-  const prevBtn = document.getElementById('atlas2-prev');
-  const nextBtn = document.getElementById('atlas2-next');
-
-  if (!openBtn || !overlay || !viewer) return;
-
-  document.getElementById('atlas2-total-count').textContent = ATLAS_TOTAL;
-  document.getElementById('atlas2-grid-count').textContent = ATLAS_TOTAL;
-
-  let current = 0;
-  let gridBuilt = false;
-
-  function buildGrid(){
-    if (gridBuilt) return;
-    grid.innerHTML = atlasSlices.map(s => `
-      <button type="button" class="atlas-tile" data-index="${s.index}" aria-label="Открыть страницу ${s.num}">
-        <img src="${s.thumb}" alt="Страница атласа №${s.num}" loading="lazy">
-        <span>${String(s.num).padStart(2,'0')}</span>
-      </button>
-    `).join('');
-    grid.querySelectorAll('.atlas-tile').forEach(tile => {
-      tile.addEventListener('click', () => openViewer(parseInt(tile.dataset.index, 10)));
-    });
-    gridBuilt = true;
-  }
-
-  overlay.addEventListener('scroll', () => {
-    if (overlayHead) overlayHead.classList.toggle('is-scrolled', overlay.scrollTop > 4);
-  });
-
-  function openOverlay(){
-    buildGrid();
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeOverlay(){
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    if (!viewer.classList.contains('is-open')) document.body.style.overflow = '';
-  }
-
-  function renderViewer(){
-    const s = atlasSlices[current];
-    viewerImg.src = s.full;
-    viewerImg.alt = `Страница атласа №${s.num}`;
-    viewerCount.textContent = `СТРАНИЦА ${String(s.num).padStart(2,'0')} / ${ATLAS_TOTAL}`;
-  }
-  function openViewer(index){
-    current = index;
-    renderViewer();
-    viewer.classList.add('is-open');
-    viewer.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeViewer(){
-    viewer.classList.remove('is-open');
-    viewer.setAttribute('aria-hidden', 'true');
-    if (!overlay.classList.contains('is-open')) document.body.style.overflow = '';
-  }
-  function step(delta){
-    current = (current + delta + ATLAS_TOTAL) % ATLAS_TOTAL;
-    renderViewer();
-  }
-
-  openBtn.addEventListener('click', openOverlay);
-  overlayClose.addEventListener('click', closeOverlay);
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeOverlay(); });
-
-  viewerClose.addEventListener('click', closeViewer);
-  viewer.addEventListener('click', (e) => { if (e.target === viewer) closeViewer(); });
-  prevBtn.addEventListener('click', () => step(-1));
-  nextBtn.addEventListener('click', () => step(1));
-
-  document.addEventListener('keydown', (e) => {
-    if (viewer.classList.contains('is-open')) {
-      if (e.key === 'Escape') closeViewer();
-      if (e.key === 'ArrowLeft') step(-1);
-      if (e.key === 'ArrowRight') step(1);
-    } else if (overlay.classList.contains('is-open') && e.key === 'Escape') {
-      closeOverlay();
-    }
-  });
-})();
 
 /* =========================================================
    LITERATURE — book cards + fullscreen PDF reader
@@ -2376,13 +2236,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
 
   // file: null пока файл не прислан — карточка отображается как "скоро"
   const books = [
-    { file: 'prokop-ct-body.pdf', title: 'Prokop M., Galanski M. — Spiral and Multislice Computed Tomography of the Body', desc: 'Фундаментальное руководство по спиральной и мультиспиральной КТ всего тела.', size: '88,7 МБ', cover: 1 },
-    { file: 'atlas-sektsionnoy-anatomii-t1.pdf', title: 'Мёллер Т.Б., Райф Э. — Атлас секционной анатомии человека. Т.1: Голова и шея', desc: 'КТ- и МРТ-срезы с подробной анатомической разметкой.', size: '46,8 МБ', cover: 2 },
-    { file: 'atlas-sektsionnoy-anatomii-t3.pdf', title: 'Мёллер Т.Б., Райф Э. — Атлас секционной анатомии человека. Т.3: Позвоночник, конечности, суставы', desc: 'КТ- и МРТ-срезы с подробной анатомической разметкой.', size: '37,7 МБ', cover: 3 },
-    { file: 'glossariy-torakalnoy-vizualizatsii.pdf', title: 'Глоссарий терминов торакальной визуализации (РОРР)', desc: 'Справочник терминологии для описания исследований грудной клетки.', size: '4,9 МБ', cover: 4 },
     { file: 'rukovodstvo-rentgenolaborant-kt.pdf', title: 'Руководство для рентгенолаборантов по протоколам КТ', desc: 'Лучшие практики лучевой и инструментальной диагностики — протоколы исследований на КТ.', size: '30,5 МБ', cover: 5 },
-    { file: 'tyurin-kt-grudnoy-polosti.pdf', title: 'Тюрин И.Е. — Компьютерная томография органов грудной полости', desc: 'Клиническое руководство по КТ-диагностике органов грудной клетки.', size: null, cover: 6 },
-    { file: 'hofer-kt-bazovoe-rukovodstvo.pdf', title: 'Хофер М. — Компьютерная томография. Базовое руководство', desc: 'Базовый курс по физике, технике и интерпретации КТ-исследований.', size: '21,2 МБ', cover: 7 },
   ];
 
   const grid = document.getElementById('lit-grid');

@@ -625,6 +625,34 @@ section{ position:relative; padding:132px 0; }
 @media (max-width: 980px){ .directions-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width: 560px){ .directions-grid{ grid-template-columns:1fr; } }
 
+.sections-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  align-items:stretch;
+  gap:18px;
+}
+.section-link-card{
+  display:block;
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  padding:32px 28px;
+  text-decoration:none;
+  position:relative;
+  transition:background .3s ease, box-shadow .3s ease, transform .3s ease, border-color .3s ease;
+  box-shadow:var(--shadow-glass);
+}
+.section-link-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-card); background:rgba(255,255,255,0.08); border-color:rgba(var(--accent-rgb),0.4); }
+.section-link-card .direction-index{ font-family:var(--font-mono); font-size:11.5px; color:var(--accent); display:block; margin-bottom:18px; }
+.section-link-card h4{ font-size:17px; font-family:var(--font-body); font-weight:600; margin:0 0 10px; color:var(--heading); }
+.section-link-card p{ font-size:13.5px; color:var(--text); margin:0; }
+.section-link-card .arrow{ position:absolute; top:30px; right:26px; width:18px; height:18px; color:var(--accent-2); transition:transform .3s ease; }
+.section-link-card:hover .arrow{ transform:translate(3px,-3px); }
+@media (max-width: 980px){ .sections-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 560px){ .sections-grid{ grid-template-columns:1fr; } }
+
 /* ==========================================================================
    FILMSTRIP — publications / cases carousel (glass cards)
    ========================================================================== */
@@ -1285,8 +1313,6 @@ footer a:hover{ text-decoration:underline; }
   <div class="container">
     <button type="button" class="brand" data-scroll-top aria-label="Наверх страницы"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Илья Солдатко</span><span class="brand-role">Врач-рентгенолог</span></span></button>
     <ul class="nav-links">
-      <li><button type="button" class="nav-link-btn" data-scroll="#about">О враче</button></li>
-      <li><button type="button" class="nav-link-btn" data-scroll="#directions">Направления</button></li>
       <li><button type="button" class="nav-link-btn" data-scroll="#publications">Публикации</button></li>
       <li><a href="knowledge-base.html">База знаний и литература</a></li>
       <li><a href="archive.html">Инструменты</a></li>
@@ -1351,122 +1377,55 @@ footer a:hover{ text-decoration:underline; }
   </div>
 </header>
 
-<!-- ============ ABOUT ============ -->
-<section id="about" class="section-alt" data-slice data-slice-label="О враче">
-  <div class="section-parallax-grid" data-parallax-speed="0.08" aria-hidden="true"></div>
-  <div class="container">
-    <div class="section-head reveal">
-      <div>
-        <span class="mono-tag">Протокол · специалист</span>
-        <h2 class="text-gradient">О враче</h2>
-      </div>
-      <p class="desc">Клинический опыт, образование и профессиональные интересы — в формате, привычном рентгенологу: как разбор исследования.</p>
-    </div>
-
-    <div class="report-card reveal">
-      <div class="report-card-top">
-        <span>ОТЧЁТ · СПЕЦИАЛИСТ RX-018</span>
-        <span>Илья Солдатко · Рентгенолог</span>
-      </div>
-      <div class="report-fields">
-        <div class="report-field">
-          <div class="report-field-label">
-            <span class="slice-index">SL.01</span>
-            <h4>Анамнез</h4>
-          </div>
-          <p>Специализируется на лучевой диагностике, работает с КТ и МРТ-исследованиями широкого профиля — от неотложных состояний до онкологической и неврологической диагностики. Убеждён, что качество заключения определяется не оборудованием, а системным клиническим мышлением врача.</p>
-        </div>
-        <div class="report-field">
-          <div class="report-field-label">
-            <span class="slice-index">SL.02</span>
-            <h4>Подход к практике</h4>
-          </div>
-          <p>Уделяет особое внимание структурному разбору каждого исследования и постоянному повышению квалификации — считает системный подход важнее количества лет за плечами.</p>
-        </div>
-        <div class="report-field">
-          <div class="report-field-label">
-            <span class="slice-index">SL.03</span>
-            <h4>Образование</h4>
-          </div>
-          <ul>
-            <li>Высшее медицинское образование, специальность «Лечебное дело»</li>
-            <li>Ординатура по рентгенологии</li>
-            <li>Повышение квалификации на базе НИИ им. Н.В. Склифосовского</li>
-          </ul>
-        </div>
-        <div class="report-field">
-          <div class="report-field-label">
-            <span class="slice-index">SL.04</span>
-            <h4>Профессиональные интересы и достижения</h4>
-          </div>
-          <p>Систематизация клинических случаев для обучения молодых специалистов, разбор сложных и атипичных находок, преподавание принципов структурного чтения исследований. Автор материалов базы знаний этого проекта.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DIRECTIONS ============ -->
-<section id="directions" data-slice data-slice-label="Направления">
+<!-- ============ SECTIONS ============ -->
+<section id="sections" data-slice data-slice-label="Разделы">
   <div class="section-parallax-grid" data-parallax-speed="0.06" aria-hidden="true"></div>
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="mono-tag">Карта исследований</span>
-        <h2 class="text-gradient">Направления диагностики</h2>
+        <span class="mono-tag">Навигация</span>
+        <h2 class="text-gradient">Разделы сайта</h2>
       </div>
-      <p class="desc">Нажмите на карточку, чтобы раскрыть, какие находки и клинические задачи охватывает направление.</p>
+      <p class="desc">Материалы сгруппированы по типу — выберите нужный раздел.</p>
     </div>
 
-    <div class="directions-grid reveal">
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">01 / Урология</span>
-        <h4>Урология</h4>
-        <p>КТ и МРТ почек, мочевыводящих путей, объёмные образования, конкременты, урологическая онкология.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">02 / Неврология</span>
-        <h4>Неврология</h4>
-        <p>МРТ головного и спинного мозга, сосудистые находки, демиелинизация, посттравматические изменения.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">03 / Онкология</span>
-        <h4>Онкология</h4>
-        <p>Стадирование, оценка динамики, дифференциальная диагностика объёмных образований разной локализации.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">04 / Пульмонология</span>
-        <h4>Пульмонология</h4>
-        <p>КТ органов грудной клетки, интерстициальные изменения, объёмные образования лёгких, ТЭЛА.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">05 / Кардиология</span>
-        <h4>Кардиология</h4>
-        <p>КТ-коронарография, оценка кальциноза, состояние крупных сосудов и перикарда.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">06 / Гастроэнтерология</span>
-        <h4>Гастроэнтерология</h4>
-        <p>КТ и МРТ органов брюшной полости, печени, поджелудочной железы, кишечника.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">07 / Травматология</span>
-        <h4>Травматология</h4>
-        <p>КТ костей и суставов, переломы, посттравматические и дегенеративные изменения.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
-      <div class="direction-card" tabindex="0">
-        <span class="direction-index">08 / Другое</span>
-        <h4>Другие направления</h4>
-        <p>Смежные и редкие клинические задачи, которые не укладываются в стандартные профили.</p>
-        <span class="plus" aria-hidden="true"></span>
-      </div>
+    <div class="sections-grid reveal">
+      <a class="section-link-card" href="knowledge-base.html#atlas-section">
+        <span class="direction-index">01</span>
+        <h4>Атлас Юдина</h4>
+        <p>Анатомия человека в аксиальной проекции — 88 подписанных срезов.</p>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a class="section-link-card" href="knowledge-base.html#literature-section">
+        <span class="direction-index">02</span>
+        <h4>Книги по МРТ и КТ</h4>
+        <p>Руководство для рентгенолаборантов по протоколам КТ.</p>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a class="section-link-card" href="knowledge-base.html#templates-section">
+        <span class="direction-index">03</span>
+        <h4>Шаблоны описаний</h4>
+        <p>Протоколы описаний исследований КТ и МРТ.</p>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a class="section-link-card" href="knowledge-base.html?q=анатомия">
+        <span class="direction-index">04</span>
+        <h4>Анатомия</h4>
+        <p>Подборки иллюстраций по анатомии органов и суставов.</p>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a class="section-link-card" href="knowledge-base.html?q=статья">
+        <span class="direction-index">05</span>
+        <h4>Статьи</h4>
+        <p>Разборы клинических случаев и находок из практики.</p>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <a class="section-link-card" href="archive.html">
+        <span class="direction-index">06</span>
+        <h4>Инструменты</h4>
+        <p>Полезные инструменты для рентгенолога.</p>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
     </div>
   </div>
 </section>

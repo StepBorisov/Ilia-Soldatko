@@ -311,7 +311,22 @@ section{ overflow:hidden; }
   gap:64px;
   align-items:center;
 }
-.hero-copy .mono-tag{ margin-bottom:24px; }
+.hero-quicklinks{
+  display:flex; flex-wrap:wrap; gap:10px 14px;
+  list-style:none; padding:0; margin:0 0 32px;
+}
+.hero-quicklinks a{
+  display:inline-flex; align-items:center;
+  padding:8px 16px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  color:var(--text);
+  text-decoration:none;
+  transition:border-color .2s, color .2s;
+}
+.hero-quicklinks a:hover{ border-color:var(--accent); color:var(--accent-dark); }
 .hero-copy h1{
   font-size:clamp(38px, 4.6vw, 58px);
   font-weight:550;
@@ -907,7 +922,7 @@ section{ position:relative; padding:132px 0; }
 @media (max-width: 600px){
   .hero{ padding:99px 0 48px; }
   .hero .container{ gap:8px; }
-  .hero-copy .mono-tag{ margin-bottom:24px; }
+  .hero-quicklinks{ margin-bottom:26px; }
   .hero-copy h1{ font-size:clamp(28px, 8vw, 36px); margin-bottom:26px; }
   .hero-copy p.lead{ font-size:15px; margin-bottom:38px; }
   .hero-tagline{ margin-bottom:46px; }
@@ -1311,13 +1326,11 @@ footer a:hover{ text-decoration:underline; }
 
 <nav class="site-nav">
   <div class="container">
-    <button type="button" class="brand" data-scroll-top aria-label="Наверх страницы"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Илья Солдатко</span><span class="brand-role">Врач-рентгенолог</span></span></button>
+    <button type="button" class="brand" data-scroll-top aria-label="Наверх страницы"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Илья Солдатко</span></span></button>
     <ul class="nav-links">
       <li><button type="button" class="nav-link-btn" data-scroll="#publications">Публикации</button></li>
-      <li><a href="knowledge-base.html">База знаний и литература</a></li>
-      <li><a href="archive.html">Инструменты</a></li>
+      <li><a href="knowledge-base.html">База знаний</a></li>
       <li><button type="button" class="nav-link-btn" data-scroll="#contact">Контакты</button></li>
-      <li><button type="button" class="nav-cta" data-scroll="#consultation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 5.8L20 9l-4.8 3.9L16.5 19 12 15.7 7.5 19l1.3-6.1L4 9l5.6-1.2L12 2z"/></svg>Консультация</button></li>
     </ul>
     <button class="nav-toggle" aria-label="Открыть меню" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -1330,18 +1343,22 @@ footer a:hover{ text-decoration:underline; }
   <div class="hero-grid" data-parallax-speed="0.18" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-copy">
-      <span class="mono-tag">Лучевая диагностика · база знаний</span>
-      <h1>Илья Солдатко читает изображения <em>по срезам</em> — и делится тем, что видит.</h1>
-      <p class="lead">Илья Солдатко — врач-рентгенолог, систематизирует опыт клинической практики, разборы исследований и случаи из практики в одном месте — для студентов медицинских вузов, врачей и клинических ординаторов.</p>
+      <h1>Илья Солдатко — врач-рентгенолог</h1>
+      <p class="lead">Систематизирует опыт клинической практики, разборы исследований и случаи из практики в одном месте — для студентов медицинских вузов, врачей и клинических ординаторов.</p>
+      <ul class="hero-quicklinks">
+        <li><a href="knowledge-base.html#templates-section">Шаблоны</a></li>
+        <li><a href="knowledge-base.html?q=анатомия">Анатомия</a></li>
+        <li><a href="knowledge-base.html#literature-section">Литература</a></li>
+      </ul>
       <blockquote class="hero-tagline">
         <p>«Распознав болезни скрытого течения,<br>нам искусный медик дарит исцеление»</p>
         <cite>— Абу Али Ибн Сина</cite>
       </blockquote>
       <div class="hero-actions">
-        <a href="knowledge-base.html" class="btn btn-primary">
-          Перейти в базу знаний
+        <button type="button" class="btn btn-primary" data-scroll="#cases">
+          Клинические случаи
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        </button>
       </div>
     </div>
     <div class="hero-visual">

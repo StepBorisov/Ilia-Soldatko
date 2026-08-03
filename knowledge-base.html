@@ -2245,10 +2245,18 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
    ========================================================= */
 (() => {
   const DOCS_BASE = 'assets/docs/';
+  const resolveBookUrl = (file) => (file && /^https?:\/\//i.test(file)) ? file : `${DOCS_BASE}${file || ''}`;
 
   // file: null пока файл не прислан — карточка отображается как "скоро"
   const books = [
     { file: 'rukovodstvo-rentgenolaborant-kt.pdf', title: 'Руководство для рентгенолаборантов по протоколам КТ', desc: 'Лучшие практики лучевой и инструментальной диагностики — протоколы исследований на КТ.', size: '30,5 МБ', cover: 5 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%B4%D0%BB%D1%8F_%D1%80%D0%B5%D0%BD%D1%82%D0%B3%D0%B5%D0%BD%D0%BE%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D0%BD%D1%82%D0%BE%D0%B2_%D0%BF%D0%BE_%D0%B2%D1%8B%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D1%8E_%D0%BF%D1%80%D0%BE%D1%82%D0%BE%D0%BA%D0%BE%D0%BB%D0%BE%D0%B2_%D0%BD%D0%B0_%D0%9C%D0%A0%D0%A2_24.08.2020_rgb_1.pdf', title: 'Руководство для рентгенолаборантов по выполнению протоколов на МРТ', desc: 'Практическое руководство по протоколам МРТ-исследований.', size: '29 МБ', cover: 8 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/%D0%B3%D0%BB%D0%BE%D1%81%D1%81%D0%B0%D1%80%D0%B8%D0%B8%CC%86%20%D0%B3%D0%BA.pdf', title: 'Глоссарий терминов торакальной визуализации (РОРР)', desc: 'Справочник терминологии для описания исследований грудной клетки.', size: '4,6 МБ', cover: 4 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/%D0%9A%D0%A2%20%D0%B8%20%D0%9C%D0%A0%D0%A2%20%D0%BE%D1%80%D0%B1%D0%B8%D1%82.pdf', title: 'КТ и МРТ орбит', desc: 'Лучевая диагностика патологии орбит методами КТ и МРТ.', size: '175,3 МБ', cover: 9 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/Kompyuternaya_tomografia_golovy_i_pozvonochnika.pdf', title: 'Компьютерная томография головы и позвоночника', desc: 'Руководство по КТ-диагностике головы и позвоночника.', size: '31,5 МБ', cover: 2 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/Luchevaya_diagnostika_Zheludochno_kishechnyi.pdf', title: 'Лучевая диагностика заболеваний желудочно-кишечного тракта', desc: 'Клиническое руководство по лучевой диагностике патологии ЖКТ.', size: '105,3 МБ', cover: 6 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/Moeller-Reif%20-%20Pocket%20Atlas%20Of%20Sectional%20Anatomy%2C%20Ct%20And%20Mri%20-%20Vol%20Iii%20Spine%2C%20Extremities%20And%20Joints.pdf', title: 'Moeller-Reif — Pocket Atlas of Sectional Anatomy, CT and MRI. Vol. III: Spine, Extremities and Joints', desc: 'КТ- и МРТ-срезы с подробной анатомической разметкой позвоночника, конечностей и суставов.', size: '111,3 МБ', cover: 3 },
+    { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/Diagnostic%20Imaging%20-%20Oral%20and%20Maxillofacial%2C%202nd%20ed%2C%202017.pdf', title: 'Diagnostic Imaging: Oral and Maxillofacial, 2nd ed.', desc: 'Атлас лучевой диагностики патологии челюстно-лицевой области.', size: '167,8 МБ', cover: 1 },
   ];
 
   const grid = document.getElementById('lit-grid');
@@ -2277,7 +2285,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
           Читать онлайн
         </button>
-        <a class="lit-dl" href="${DOCS_BASE}${b.file || ''}" download aria-label="Скачать PDF">
+        <a class="lit-dl" href="${resolveBookUrl(b.file)}" download aria-label="Скачать PDF">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
         </a>
       </div>
@@ -2287,9 +2295,9 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
   function openReader(i){
     const b = books[i];
     if (!b.file) return;
-    readerFrame.src = `${DOCS_BASE}${b.file}#toolbar=1`;
+    readerFrame.src = `${resolveBookUrl(b.file)}#toolbar=1`;
     readerTitle.textContent = b.title;
-    readerDownload.href = `${DOCS_BASE}${b.file}`;
+    readerDownload.href = resolveBookUrl(b.file);
     reader.classList.add('is-open');
     reader.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';

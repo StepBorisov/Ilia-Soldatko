@@ -6,6 +6,7 @@
 <meta name="color-scheme" content="light only">
 <title>База знаний и литература — Илья Солдатко, врач-рентгенолог</title>
 <meta name="description" content="Статьи, клинические случаи, лекции и рекомендации по лучевой диагностике — систематизированная база знаний врача-рентгенолога Ильи Солдатко.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 /* ==========================================================================
    ILYA SOLDATKO — RADIOLOGY KNOWLEDGE PLATFORM
@@ -1391,10 +1392,36 @@ footer a:hover{ text-decoration:underline; }
   color:#fff; cursor:pointer;
 }
 .pdf-reader-actions svg{ width:16px; height:16px; }
-.pdf-reader-body{ flex:1; }
-.pdf-reader-body iframe{ width:100%; height:100%; border:0; background:#fff; }
+.pdf-reader-body{ flex:1; position:relative; overflow:hidden; background:#4b5257; }
+.pdf-viewer-scroll{
+  position:absolute; inset:0; overflow-y:auto; overflow-x:hidden;
+  -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+  padding:14px 10px 40px;
+  box-sizing:border-box;
+}
+.pdf-page-wrap{
+  display:flex; justify-content:center; margin:0 auto 12px; max-width:100%;
+}
+.pdf-page-canvas{
+  display:block; max-width:100%; width:auto; height:auto;
+  box-shadow:0 2px 14px rgba(0,0,0,.35); background:#fff;
+}
+.pdf-viewer-status{
+  position:absolute; inset:0; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+  background:#4b5257; color:#fff; text-align:center; padding:0 28px;
+}
+.pdf-viewer-status.is-hidden{ display:none; }
+.pdf-viewer-status p{ font-family:var(--font-mono); font-size:12.5px; color:rgba(255,255,255,0.85); max-width:320px; margin:0; line-height:1.5; }
+.pdf-viewer-progress{ width:180px; height:4px; border-radius:2px; background:rgba(255,255,255,.18); overflow:hidden; }
+.pdf-viewer-progress i{ display:block; height:100%; width:0%; background:var(--blue-300,#7BBDE8); transition:width .2s; }
+.pdf-viewer-retry{
+  margin-top:2px; padding:9px 18px; border-radius:8px; border:1px solid rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.1); color:#fff; font-size:12.5px; cursor:pointer;
+}
 @media (max-width:768px){
   .pdf-reader-head h4{ font-size:12.5px; max-width:60vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pdf-viewer-scroll{ padding:10px 6px 32px; }
 }
 
 /* ---------- atlas fullscreen viewer ---------- */
@@ -1730,7 +1757,12 @@ footer a:hover{ text-decoration:underline; }
     </div>
   </div>
   <div class="pdf-reader-body">
-    <iframe id="pdf-reader-frame" src="" title="PDF"></iframe>
+    <div class="pdf-viewer-scroll" id="pdf-viewer-scroll"></div>
+    <div class="pdf-viewer-status" id="pdf-viewer-status">
+      <div class="pdf-viewer-progress"><i id="pdf-viewer-progress-bar"></i></div>
+      <p id="pdf-viewer-status-text">Загрузка документа…</p>
+      <button class="pdf-viewer-retry is-hidden" id="pdf-viewer-retry" type="button">Повторить</button>
+    </div>
   </div>
 </div>
 
@@ -2261,11 +2293,116 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
 
   const grid = document.getElementById('lit-grid');
   const reader = document.getElementById('pdf-reader');
-  const readerFrame = document.getElementById('pdf-reader-frame');
   const readerTitle = document.getElementById('pdf-reader-title');
   const readerDownload = document.getElementById('pdf-reader-download');
   const readerClose = document.getElementById('pdf-reader-close');
+  const viewerScroll = document.getElementById('pdf-viewer-scroll');
+  const viewerStatus = document.getElementById('pdf-viewer-status');
+  const viewerStatusText = document.getElementById('pdf-viewer-status-text');
+  const viewerProgressBar = document.getElementById('pdf-viewer-progress-bar');
+  const viewerRetry = document.getElementById('pdf-viewer-retry');
   if (!grid || !reader) return;
+
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  let currentPdfDoc = null;
+  let currentUrl = null;
+  let pageEntries = [];
+  let pageObserver = null;
+  let resizeTimer = null;
+
+  function showStatus(text, showRetry){
+    viewerStatusText.textContent = text;
+    viewerProgressBar.style.width = '0%';
+    viewerRetry.classList.toggle('is-hidden', !showRetry);
+    viewerStatus.classList.remove('is-hidden');
+  }
+  function hideStatus(){ viewerStatus.classList.add('is-hidden'); }
+  function updateProgress(pct){ viewerProgressBar.style.width = Math.max(0, Math.min(100, pct)) + '%'; }
+
+  function resetViewer(){
+    if (pageObserver) { pageObserver.disconnect(); pageObserver = null; }
+    pageEntries = [];
+    viewerScroll.innerHTML = '';
+    if (currentPdfDoc) { try { currentPdfDoc.destroy(); } catch(e){} }
+    currentPdfDoc = null;
+  }
+
+  async function renderPage(entry){
+    entry.rendering = true;
+    try {
+      const page = await currentPdfDoc.getPage(entry.num);
+      const containerWidth = Math.max(280, viewerScroll.clientWidth - 20);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const scale = containerWidth / baseViewport.width;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const viewport = page.getViewport({ scale: scale * dpr });
+      entry.canvas.width = Math.floor(viewport.width);
+      entry.canvas.height = Math.floor(viewport.height);
+      entry.canvas.style.width = Math.floor(viewport.width / dpr) + 'px';
+      entry.canvas.style.height = Math.floor(viewport.height / dpr) + 'px';
+      const ctx = entry.canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      entry.rendered = true;
+    } catch(err){
+      console.error('Ошибка рендера страницы', entry.num, err);
+    } finally {
+      entry.rendering = false;
+    }
+  }
+
+  function buildPages(pdf){
+    for (let num = 1; num <= pdf.numPages; num++){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pdf-page-wrap';
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pdf-page-canvas';
+      wrapper.appendChild(canvas);
+      viewerScroll.appendChild(wrapper);
+      pageEntries.push({ num, canvas, wrapper, rendered:false, rendering:false });
+    }
+    pageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting){
+          const entry = pageEntries.find(p => p.wrapper === en.target);
+          if (entry && !entry.rendered && !entry.rendering) renderPage(entry);
+        }
+      });
+    }, { root: viewerScroll, rootMargin: '800px 0px' });
+    pageEntries.forEach(e => pageObserver.observe(e.wrapper));
+  }
+
+  async function loadPdf(url){
+    resetViewer();
+    showStatus('Загрузка документа…', false);
+    try {
+      const loadingTask = pdfjsLib.getDocument({ url });
+      loadingTask.onProgress = (p) => {
+        if (p.total) updateProgress(Math.round((p.loaded / p.total) * 100));
+      };
+      const pdf = await loadingTask.promise;
+      currentPdfDoc = pdf;
+      buildPages(pdf);
+      hideStatus();
+    } catch(err){
+      console.error('Не удалось открыть PDF', url, err);
+      showStatus('Не удалось открыть файл. Проверьте ссылку или скачайте документ отдельно.', true);
+    }
+  }
+
+  window.addEventListener('resize', () => {
+    if (!reader.classList.contains('is-open') || !currentPdfDoc) return;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      pageEntries.forEach(e => {
+        if (e.rendered) { e.rendered = false; renderPage(e); }
+      });
+    }, 300);
+  });
+
+  viewerRetry.addEventListener('click', () => { if (currentUrl) loadPdf(currentUrl); });
 
   function shortTitle(t){
     const parts = t.split(' — ');
@@ -2295,18 +2432,21 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
   function openReader(i){
     const b = books[i];
     if (!b.file) return;
-    readerFrame.src = `${resolveBookUrl(b.file)}#toolbar=1`;
+    const url = resolveBookUrl(b.file);
+    currentUrl = url;
     readerTitle.textContent = b.title;
-    readerDownload.href = resolveBookUrl(b.file);
+    readerDownload.href = url;
     reader.classList.add('is-open');
     reader.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    loadPdf(url);
   }
   function closeReader(){
     reader.classList.remove('is-open');
     reader.setAttribute('aria-hidden', 'true');
-    readerFrame.src = '';
     document.body.style.overflow = '';
+    resetViewer();
+    currentUrl = null;
   }
 
   grid.querySelectorAll('.lit-open').forEach(btn => {

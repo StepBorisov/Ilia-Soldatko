@@ -159,11 +159,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   display:flex;
   align-items:center;
   justify-content:space-between;
-  height:82px;
+  padding-top:20px;
+  padding-bottom:20px;
 }
 .brand{
   display:flex;
   align-items:center;
+  align-self:center;
   gap:12px;
   text-decoration:none;
   font-family:var(--font-display);
@@ -171,12 +173,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   background:none;
   border:none;
   padding:0;
+  margin:0;
   cursor:pointer;
   text-align:left;
+  line-height:normal;
 }
 .brand-text{
   display:flex;
   flex-direction:column;
+  justify-content:center;
   line-height:1.2;
 }
 .brand-name{
@@ -184,21 +189,24 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   font-weight:700;
   letter-spacing:0.01em;
   color:var(--heading);
+  line-height:1.25;
 }
 .brand-role{
   font-size:11.5px;
   font-weight:500;
   color:var(--accent);
+  line-height:1.25;
 }
 .brand-mark{
   width:38px; height:38px;
   border-radius:12px;
+  align-self:center;
+  flex-shrink:0;
   background:
     linear-gradient(180deg, transparent 0%, transparent 22%, rgba(255,255,255,0.55) 22%, rgba(255,255,255,0.55) 26%, transparent 26%,
     transparent 48%, rgba(255,255,255,0.55) 48%, rgba(255,255,255,0.55) 52%, transparent 52%,
     transparent 74%, rgba(255,255,255,0.55) 74%, rgba(255,255,255,0.55) 78%, transparent 78%),
     linear-gradient(155deg, var(--navy-800), var(--blue-600));
-  flex-shrink:0;
   box-shadow:0 6px 16px -6px rgba(0,0,0,0.4);
 }
 .nav-links{
@@ -265,6 +273,9 @@ a.nav-cta:hover, button.nav-cta:hover{
   background:var(--glass-bg);
   backdrop-filter:var(--glass-blur);
   align-items:center; justify-content:center;
+  align-self:center;
+  flex-shrink:0;
+  margin:0;
   cursor:pointer;
 }
 .nav-toggle svg{ width:18px; height:18px; color:var(--accent-dark); }
@@ -1326,7 +1337,7 @@ footer a:hover{ text-decoration:underline; }
 
 <nav class="site-nav">
   <div class="container">
-    <button type="button" class="brand" data-scroll-top aria-label="Наверх страницы"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Илья Солдатко</span></span></button>
+    <button type="button" class="brand" data-scroll-top aria-label="Наверх страницы"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Илья Солдатко</span><span class="brand-role">Врач-рентгенолог</span></span></button>
     <ul class="nav-links">
       <li><button type="button" class="nav-link-btn" data-scroll="#publications">Публикации</button></li>
       <li><a href="knowledge-base.html">База знаний</a></li>
@@ -1447,114 +1458,6 @@ footer a:hover{ text-decoration:underline; }
   </div>
 </section>
 
-<!-- ============ PUBLICATIONS ============ -->
-<section id="publications" class="section-alt" data-slice data-slice-label="Публикации">
-  <div class="section-parallax-grid" data-parallax-speed="0.12" aria-hidden="true"></div>
-  <div class="container">
-    <div class="section-head reveal">
-      <div>
-        <span class="mono-tag">Лента · срезы 01–04</span>
-        <h2 class="text-gradient">Последние публикации</h2>
-      </div>
-      <p class="desc">Разборы, статьи и заметки из практики — полный список в базе знаний.</p>
-    </div>
-
-    <div class="filmstrip-wrap reveal">
-      <div class="filmstrip">
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Статья</span>
-            <h4>Структурный подход к чтению КТ грудной клетки</h4>
-            <p>Как выстроить последовательность просмотра среза за срезом, чтобы не пропустить случайную находку.</p>
-            <div class="film-meta"><span>PULM</span><span>12 мин</span></div>
-          </div>
-        </article>
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Разбор случая</span>
-            <h4>Атипичная находка при МРТ поясничного отдела</h4>
-            <p>Клинический случай с разбором дифференциальной диагностики и итоговым заключением.</p>
-            <div class="film-meta"><span>NEURO</span><span>8 мин</span></div>
-          </div>
-        </article>
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Лекция</span>
-            <h4>Протоколы описания при онкопоиске</h4>
-            <p>Единый шаблон заключения, ускоряющий работу и снижающий вероятность ошибки.</p>
-            <div class="film-meta"><span>ONCO</span><span>24 мин</span></div>
-          </div>
-        </article>
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Рекомендация</span>
-            <h4>Когда назначать КТ, а когда МРТ</h4>
-            <p>Практическая шпаргалка для лечащих врачей по выбору метода лучевой диагностики.</p>
-            <div class="film-meta"><span>ОБЩЕЕ</span><span>6 мин</span></div>
-          </div>
-        </article>
-      </div>
-      <div class="filmstrip-nav">
-        <button type="button" data-strip-prev aria-label="Предыдущие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button type="button" data-strip-next aria-label="Следующие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CLINICAL CASES ============ -->
-<section id="cases" data-slice data-slice-label="Клинические случаи">
-  <div class="section-parallax-grid" data-parallax-speed="0.09" aria-hidden="true"></div>
-  <div class="container">
-    <div class="section-head reveal">
-      <div>
-        <span class="mono-tag">Лента · срезы 05–08</span>
-        <h2 class="text-gradient">Последние клинические случаи</h2>
-      </div>
-      <p class="desc">Реальные случаи из практики с последовательностью снимков и итоговым заключением.</p>
-    </div>
-
-    <div class="filmstrip-wrap reveal">
-      <div class="filmstrip">
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Случай №118</span>
-            <h4>Случайная находка при скрининговой КТ</h4>
-            <p>Пациент без жалоб, находка потребовала дополнительного дообследования и динамического наблюдения.</p>
-            <div class="film-meta"><span>ONCO</span><span>КТ</span></div>
-          </div>
-        </article>
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Случай №119</span>
-            <h4>Дифференциальная диагностика объёмного образования почки</h4>
-            <p>Разбор нескольких методов визуализации для уточнения характера образования.</p>
-            <div class="film-meta"><span>УРОЛ</span><span>МРТ</span></div>
-          </div>
-        </article>
-        <article class="film-card">
-          <div class="film-card-strip"></div>
-          <div class="film-card-body">
-            <span class="film-tag">Случай №120</span>
-            <h4>Посттравматические изменения коленного сустава</h4>
-            <p>Сопоставление рентгенографии и МРТ для полной клинической картины.</p>
-            <div class="film-meta"><span>ТРАВМА</span><span>МРТ</span></div>
-          </div>
-        </article>
-      </div>
-      <div class="filmstrip-nav">
-        <button type="button" data-strip-prev aria-label="Предыдущие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button type="button" data-strip-next aria-label="Следующие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ CONSULTATION (paid) ============ -->
 <section id="consultation" class="section-alt" data-slice data-slice-label="Консультация">

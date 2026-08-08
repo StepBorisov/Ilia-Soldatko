@@ -1668,24 +1668,6 @@ footer a:hover{ text-decoration:underline; }
   <p class="mono-tag" id="literature-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Литература</p>
   <div class="lit-grid reveal" id="lit-grid"></div>
 
-  <p class="mono-tag" id="templates-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Шаблоны описания</p>
-  <div class="filmstrip-wrap">
-    <div class="filmstrip" id="kb-row-templates"></div>
-    <div class="filmstrip-nav">
-      <button type="button" data-strip-prev aria-label="Предыдущие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <button type="button" data-strip-next aria-label="Следующие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-    </div>
-  </div>
-
-  <p class="mono-tag" style="margin:36px 0 16px;">Популярные материалы</p>
-  <div class="filmstrip-wrap">
-    <div class="filmstrip" id="kb-row-popular"></div>
-    <div class="filmstrip-nav">
-      <button type="button" data-strip-prev aria-label="Предыдущие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <button type="button" data-strip-next aria-label="Следующие"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-    </div>
-  </div>
-
   <p class="mono-tag" style="margin:36px 0 16px;">Недавно добавленные</p>
   <div class="filmstrip-wrap" style="padding-bottom:100px;">
     <div class="filmstrip" id="kb-row-recent"></div>
@@ -2070,10 +2052,6 @@ const KB_ITEMS = [
     body:"<p>Подборка иллюстраций по теме (иллюстрации доступны по ссылке на источник ниже):</p><ul><li>Точки крепления сухожилий к костям таза</li><li>Анатомия связок таза</li><li>Анатомия тазобедренного сустава на МРТ</li></ul><p>Источник: <a href=\"https://rentgenogram.ru/anatomiya/kosti-taza-i-tb-sustavy/\" target=\"_blank\" rel=\"noopener\">rentgenogram.ru</a></p>" },
 ];
 
-const POPULAR_IDS = [1, 3, 6, 8, 10];
-
-const rowPopular = document.getElementById('kb-row-popular');
-const rowTemplates = document.getElementById('kb-row-templates');
 const rowRecent = document.getElementById('kb-row-recent');
 const emptyEl = document.getElementById('kb-empty');
 
@@ -2104,15 +2082,7 @@ function buildCard(item, i){
 }
 
 function renderRows(){
-  const popularItems = KB_ITEMS.filter(i => POPULAR_IDS.includes(i.id));
-  const templateItems = KB_ITEMS.filter(i => i.type === 'Шаблон описания');
   const recentItems = [...KB_ITEMS].sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  rowPopular.innerHTML = '';
-  popularItems.forEach((item, i) => rowPopular.appendChild(buildCard(item, i)));
-
-  rowTemplates.innerHTML = '';
-  templateItems.forEach((item, i) => rowTemplates.appendChild(buildCard(item, i)));
 
   rowRecent.innerHTML = '';
   recentItems.forEach((item, i) => rowRecent.appendChild(buildCard(item, i)));
@@ -2122,7 +2092,7 @@ function renderRows(){
 
 document.getElementById('kb-search-input').addEventListener('input', (e) => {
   const q = e.target.value.trim().toLowerCase();
-  const allCards = document.querySelectorAll('#kb-row-popular .kb-card, #kb-row-templates .kb-card, #kb-row-recent .kb-card');
+  const allCards = document.querySelectorAll('#kb-row-recent .kb-card');
   let visible = 0;
   allCards.forEach(card => {
     const match = !q || card.dataset.searchHay.includes(q);

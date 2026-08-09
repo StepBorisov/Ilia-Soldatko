@@ -1412,6 +1412,7 @@ footer a:hover{ text-decoration:underline; }
   background:#4b5257; color:#fff; text-align:center; padding:0 28px;
 }
 .pdf-viewer-status.is-hidden{ display:none; }
+.pdf-viewer-retry.is-hidden{ display:none; }
 .pdf-viewer-status p{ font-family:var(--font-mono); font-size:12.5px; color:rgba(255,255,255,0.85); max-width:320px; margin:0; line-height:1.5; }
 .pdf-viewer-progress{ width:180px; height:4px; border-radius:2px; background:rgba(255,255,255,.18); overflow:hidden; }
 .pdf-viewer-progress i{ display:block; height:100%; width:0%; background:var(--blue-300,#7BBDE8); transition:width .2s; }
@@ -1726,7 +1727,7 @@ footer a:hover{ text-decoration:underline; }
     <div class="pdf-viewer-scroll" id="pdf-viewer-scroll"></div>
     <div class="pdf-viewer-status" id="pdf-viewer-status">
       <div class="pdf-viewer-progress"><i id="pdf-viewer-progress-bar"></i></div>
-      <p id="pdf-viewer-status-text">Загрузка документа…</p>
+      <p id="pdf-viewer-status-text">Подождите немного — документ скоро загрузится</p>
       <button class="pdf-viewer-retry is-hidden" id="pdf-viewer-retry" type="button">Повторить</button>
     </div>
   </div>
@@ -2329,7 +2330,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
 
   async function loadPdf(url){
     resetViewer();
-    showStatus('Загрузка документа…', false);
+    showStatus('Подождите немного — документ скоро загрузится', false);
     try {
       const loadingTask = pdfjsLib.getDocument({ url });
       loadingTask.onProgress = (p) => {
@@ -2382,6 +2383,7 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
     </div>`;
   }).join('');
 
+  let lockedScrollY = 0;
   function openReader(i){
     const b = books[i];
     if (!b.file) return;
@@ -2391,13 +2393,23 @@ document.querySelectorAll('.kb-stat').forEach(stat => {
     readerDownload.href = url;
     reader.classList.add('is-open');
     reader.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
     loadPdf(url);
   }
   function closeReader(){
     reader.classList.remove('is-open');
     reader.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, lockedScrollY);
     resetViewer();
     currentUrl = null;
   }

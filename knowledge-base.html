@@ -1615,22 +1615,6 @@ footer a:hover{ text-decoration:underline; }
       <h1 class="text-gradient">База знаний и литература по лучевой диагностике</h1>
       <p>Все материалы — статьи, клинические случаи, лекции, презентации и рекомендации — собраны в одном месте с поиском, категориями и тегами. Откройте карточку, чтобы прочитать материал, не покидая страницу.</p>
     </div>
-    <div class="kb-hero-right">
-      <div class="kb-stats">
-        <div class="kb-stat">
-          <span class="kb-stat-icon" id="stat-total">00</span>
-          <span class="kb-stat-text"><strong>Материалов</strong><small>Статьи, случаи, лекции и презентации</small></span>
-        </div>
-        <div class="kb-stat">
-          <span class="kb-stat-icon">8</span>
-          <span class="kb-stat-text"><strong>Направлений</strong><small>От урологии до травматологии</small></span>
-        </div>
-        <div class="kb-stat">
-          <span class="kb-stat-icon">5</span>
-          <span class="kb-stat-text"><strong>Типов материалов</strong><small>Статьи, случаи, лекции, презентации, рекомендации</small></span>
-        </div>
-      </div>
-    </div>
   </div>
 </header>
 
@@ -2086,8 +2070,6 @@ function renderRows(){
 
   rowRecent.innerHTML = '';
   recentItems.forEach((item, i) => rowRecent.appendChild(buildCard(item, i)));
-
-  document.getElementById('stat-total').textContent = String(KB_ITEMS.length).padStart(2,'0');
 }
 
 document.getElementById('kb-search-input').addEventListener('input', (e) => {

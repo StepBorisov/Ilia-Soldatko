@@ -364,8 +364,11 @@ section{ overflow:hidden; }
   margin-bottom:20px;
 }
 .hero-tagline{
-  margin:40px 0 36px;
+  margin:0 0 36px;
+  padding-top:40px;
   max-width:44ch;
+}
+.hero-tagline-inner{
   padding-left:16px;
   border-left:2px solid var(--accent-2);
 }
@@ -937,7 +940,7 @@ section{ position:relative; padding:132px 0; }
   .hero-quicklinks{ margin-bottom:34px; }
   .hero-copy h1{ font-size:clamp(28px, 8vw, 36px); margin-bottom:34px; }
   .hero-copy p.lead{ font-size:15px; margin-bottom:48px; }
-  .hero-tagline{ margin-top:44px; margin-bottom:58px; }
+  .hero-tagline{ padding-top:44px; margin-top:0; margin-bottom:58px; }
   .hero-tagline p{ font-size:14px; }
   .hero-tagline cite{ font-size:11px; }
   .hero-visual{ max-width:280px; }
@@ -1358,8 +1361,10 @@ footer a:hover{ text-decoration:underline; }
       <h1>Илья Солдатко — врач-рентгенолог</h1>
       <p class="lead">Систематизирует опыт клинической практики, разборы исследований и случаи из практики в одном месте — для студентов медицинских вузов, врачей и клинических ординаторов.</p>
       <blockquote class="hero-tagline">
-        <p>«Распознав болезни скрытого течения,<br>нам искусный медик дарит исцеление»</p>
-        <cite>— Абу Али Ибн Сина</cite>
+        <div class="hero-tagline-inner">
+          <p>«Распознав болезни скрытого течения,<br>нам искусный медик дарит исцеление»</p>
+          <cite>— Абу Али Ибн Сина</cite>
+        </div>
       </blockquote>
       <div class="hero-actions">
         <a href="knowledge-base.html" class="btn btn-primary">

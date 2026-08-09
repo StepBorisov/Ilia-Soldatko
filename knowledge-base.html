@@ -150,16 +150,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   position:fixed;
   top:0; left:0; right:0;
   z-index:100;
-  background:var(--glass-bg-strong);
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
+  background:linear-gradient(165deg, rgba(5,11,20,0.82), rgba(10,21,34,0.82));
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
   border-bottom:1px solid var(--glass-border);
 }
 .site-nav .container{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  height:82px;
+  padding-top:12px;
+  padding-bottom:12px;
+  min-height:56px;
 }
 .brand{
   display:flex;
@@ -175,19 +177,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   line-height:1.2;
 }
 .brand-name{
-  font-size:17px;
+  font-size:15px;
   font-weight:700;
   letter-spacing:0.01em;
   color:var(--heading);
+  line-height:1.25;
 }
 .brand-role{
-  font-size:11.5px;
+  font-size:10.5px;
   font-weight:500;
   color:var(--accent);
+  line-height:1.25;
 }
 .brand-mark{
-  width:38px; height:38px;
-  border-radius:12px;
+  width:32px; height:32px;
+  border-radius:10px;
+  align-self:center;
   background:
     linear-gradient(180deg, transparent 0%, transparent 22%, rgba(255,255,255,0.55) 22%, rgba(255,255,255,0.55) 26%, transparent 26%,
     transparent 48%, rgba(255,255,255,0.55) 48%, rgba(255,255,255,0.55) 52%, transparent 52%,
@@ -254,15 +259,18 @@ a.nav-cta:hover, button.nav-cta:hover{
 
 .nav-toggle{
   display:none;
-  width:42px; height:42px;
-  border-radius:12px;
+  width:36px; height:36px;
+  border-radius:10px;
   border:1px solid var(--glass-border);
   background:var(--glass-bg);
   backdrop-filter:var(--glass-blur);
   align-items:center; justify-content:center;
+  align-self:center;
+  flex-shrink:0;
+  margin:0;
   cursor:pointer;
 }
-.nav-toggle svg{ width:18px; height:18px; color:var(--accent-dark); }
+.nav-toggle svg{ width:16px; height:16px; color:var(--accent-dark); }
 
 /* ==========================================================================
    HERO
@@ -832,7 +840,7 @@ footer a:hover{ text-decoration:underline; }
 @media (max-width: 860px){
   .nav-links{
     position:fixed;
-    top:82px; left:0; right:0;
+    top:61px; left:0; right:0;
     background:
       linear-gradient(165deg, rgba(5,11,20,0.97), rgba(10,21,34,0.97));
     backdrop-filter:blur(24px) saturate(180%);
@@ -967,11 +975,11 @@ footer a:hover{ text-decoration:underline; }
 .kb-hero{
   position:relative;
   overflow:hidden;
-  padding:184px 0 64px;
+  padding:163px 0 64px;
 }
 .hero-topbar{
   position:absolute;
-  top:82px; left:0; right:0;
+  top:61px; left:0; right:0;
   height:102px;
   display:flex;
   align-items:center;
@@ -1052,34 +1060,6 @@ footer a:hover{ text-decoration:underline; }
   .kb-stat-text small{ display:block; font-size:13px; color:var(--text-soft); margin-top:2px; }
 }
 
-.kb-toolbar{
-  position:sticky;
-  top:82px;
-  z-index:50;
-  background:linear-gradient(var(--glass-bg-strong), var(--glass-bg-strong)), var(--dark-bg-2);
-  backdrop-filter:var(--glass-blur);
-  border-bottom:1px solid var(--glass-border);
-  padding:22px 0;
-}
-.kb-search{
-  position:relative;
-  margin-bottom:18px;
-}
-.kb-search svg{
-  position:absolute; left:20px; top:50%; transform:translateY(-50%);
-  width:18px; height:18px; color:#8CA3B6;
-}
-.kb-search input{
-  width:100%;
-  padding:16px 20px 16px 50px;
-  border-radius:100px;
-  border:1px solid rgba(255,255,255,0.12);
-  background:rgba(255,255,255,0.078);
-  font-size:15px;
-  font-family:var(--font-body);
-  color:var(--heading);
-}
-.kb-search input:focus{ outline:none; border-color:var(--accent); background:rgba(255,255,255,0.1); }
 
 .kb-tabs{
   display:flex;
@@ -1570,7 +1550,7 @@ footer a:hover{ text-decoration:underline; }
 .archive-notify input:focus{ outline:none; border-color:var(--accent); }
 
 @media (max-width:600px){
-  .kb-hero{ padding:182px 0 40px; }
+  .kb-hero{ padding:161px 0 40px; }
   .archive-hero{ padding:182px 0 56px; }
   .hero-topbar{ top:114px; height:44px; align-items:flex-start; }
   .kb-hero .mono-tag{ margin-bottom:16px; }
@@ -1619,17 +1599,8 @@ footer a:hover{ text-decoration:underline; }
   </div>
 </header>
 
-<div class="kb-toolbar">
-  <div class="container">
-    <div class="kb-search" style="margin-bottom:0;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input type="text" id="kb-search-input" placeholder="Поиск по названию, описанию или тегу…" aria-label="Поиск по базе знаний">
-    </div>
-  </div>
-</div>
 
 <main class="container">
-  <p class="kb-results-meta" id="kb-empty" style="display:none;">Ничего не найдено — попробуйте другой запрос.</p>
 
   <p class="mono-tag" id="atlas-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Атлас анатомии</p>
   <article class="atlas-banner reveal">
@@ -2038,14 +2009,12 @@ const KB_ITEMS = [
 ];
 
 const rowRecent = document.getElementById('kb-row-recent');
-const emptyEl = document.getElementById('kb-empty');
 
 function buildCard(item, i){
   const card = document.createElement('article');
   card.className = 'kb-card film-card';
   card.tabIndex = 0;
   card.style.animationDelay = `${Math.min(i, 8) * 0.05}s`;
-  card.dataset.searchHay = (item.title + ' ' + item.excerpt + ' ' + item.tags.join(' ') + ' ' + item.category + ' ' + item.type).toLowerCase();
   card.innerHTML = `
     <div class="kb-card-top">
       <span class="kb-type">${item.type}</span>
@@ -2072,30 +2041,6 @@ function renderRows(){
   rowRecent.innerHTML = '';
   recentItems.forEach((item, i) => rowRecent.appendChild(buildCard(item, i)));
 }
-
-document.getElementById('kb-search-input').addEventListener('input', (e) => {
-  const q = e.target.value.trim().toLowerCase();
-  const allCards = document.querySelectorAll('#kb-row-recent .kb-card');
-  let visible = 0;
-  allCards.forEach(card => {
-    const match = !q || card.dataset.searchHay.includes(q);
-    card.style.display = match ? '' : 'none';
-    if (match) visible++;
-  });
-  emptyEl.style.display = visible === 0 ? 'block' : 'none';
-});
-
-// Deep-link support: ?q=... prefills and triggers the search (used by index.html section cards)
-(() => {
-  const params = new URLSearchParams(window.location.search);
-  const q = params.get('q');
-  if (q) {
-    const input = document.getElementById('kb-search-input');
-    input.value = q;
-    input.dispatchEvent(new Event('input'));
-    window.requestAnimationFrame(() => input.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-  }
-})();
 
 function formatDate(iso){
   const d = new Date(iso);

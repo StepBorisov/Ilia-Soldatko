@@ -1651,7 +1651,7 @@ footer a:hover{ text-decoration:underline; }
         <div class="pdf-viewer-progress"><i id="pdf-viewer-progress-bar"></i></div>
         <span class="pdf-viewer-progress-pct" id="pdf-viewer-progress-pct"></span>
       </div>
-      <p id="pdf-viewer-status-text">Подождите немного — документ скоро загрузится</p>
+      <p id="pdf-viewer-status-text">Подождите немного — документ скоро откроется</p>
       <button class="pdf-viewer-retry is-hidden" id="pdf-viewer-retry" type="button">Повторить</button>
     </div>
   </div>
@@ -2066,7 +2066,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadPdf(url){
     resetViewer();
-    showStatus('Подождите немного — документ скоро загрузится', false);
+    showStatus('Подождите немного — документ скоро откроется', false);
     try {
       const loadingTask = pdfjsLib.getDocument({ url });
       loadingTask.onProgress = (p) => {

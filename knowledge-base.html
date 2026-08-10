@@ -1647,7 +1647,7 @@ footer a:hover{ text-decoration:underline; }
   <div class="pdf-reader-head">
     <h4 id="pdf-reader-title"></h4>
     <div class="pdf-reader-actions">
-      <a id="pdf-reader-download" href="#" download aria-label="Скачать PDF">
+      <a id="pdf-reader-download" href="#" aria-label="Скачать PDF">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
       </a>
       <button id="pdf-reader-close" type="button" aria-label="Закрыть">
@@ -1971,6 +1971,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const DOCS_BASE = 'assets/docs/';
   const resolveBookUrl = (file) => (file && /^https?:\/\//i.test(file)) ? file : `${DOCS_BASE}${file || ''}`;
 
+  async function downloadFile(url, filename){
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('Ошибка сети: ' + resp.status);
+      const blob = await resp.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename || 'document.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+    } catch(err){
+      console.error('Не удалось скачать файл, открываю в новой вкладке', err);
+      window.open(url, '_blank');
+    }
+  }
+
   // file: null пока файл не прислан — карточка отображается как "скоро"
   const books = [
     { file: 'https://pub-57698b70a2174775b5323f8efd575568.r2.dev/%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%B4%D0%BB%D1%8F_%D1%80%D0%B5%D0%BD%D1%82%D0%B3%D0%B5%D0%BD%D0%BE%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D0%BD%D1%82%D0%BE%D0%B2_%D0%BF%D0%BE_%D0%B2%D1%8B%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D1%8E_%D0%BF%D1%80%D0%BE%D1%82%D0%BE%D0%BA%D0%BE%D0%BB%D0%BE%D0%B2_%D0%BD%D0%B0_%D0%9C%D0%A0%D0%A2_24.08.2020_rgb_1.pdf', title: 'Руководство для рентгенолаборантов по выполнению протоколов на МРТ', desc: 'Практическое руководство по протоколам МРТ-исследований.', size: '29 МБ', cover: 8 },
@@ -2013,7 +2032,11 @@ document.addEventListener('DOMContentLoaded', () => {
     viewerStatus.classList.remove('is-hidden');
   }
   function hideStatus(){ viewerStatus.classList.add('is-hidden'); }
-  function updateProgress(pct){ viewerProgressBar.style.width = Math.max(0, Math.min(100, pct)) + '%'; }
+  function updateProgress(pct){
+    const clamped = Math.max(0, Math.min(100, pct));
+    viewerProgressBar.style.width = clamped + '%';
+    viewerStatusText.textContent = `Подождите немного — документ скоро загрузится (${clamped}%)`;
+  }
 
   function resetViewer(){
     if (pageObserver) { pageObserver.disconnect(); pageObserver = null; }
@@ -2114,7 +2137,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
           Читать онлайн
         </button>
-        <a class="lit-dl" href="${resolveBookUrl(b.file)}" download aria-label="Скачать PDF">
+        <a class="lit-dl" href="${resolveBookUrl(b.file)}" data-dl-name="${b.title}.pdf" aria-label="Скачать PDF">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
         </a>
       </div>
@@ -2122,11 +2145,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }).join('');
 
   let lockedScrollY = 0;
+  let currentTitle = '';
   function openReader(i){
     const b = books[i];
     if (!b.file) return;
     const url = resolveBookUrl(b.file);
     currentUrl = url;
+    currentTitle = b.title;
     readerTitle.textContent = b.title;
     readerDownload.href = url;
     reader.classList.add('is-open');
@@ -2154,6 +2179,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   grid.querySelectorAll('.lit-open').forEach(btn => {
     btn.addEventListener('click', () => openReader(parseInt(btn.dataset.index, 10)));
+  });
+  grid.querySelectorAll('.lit-dl').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      downloadFile(a.href, a.dataset.dlName);
+    });
+  });
+  readerDownload.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentUrl) downloadFile(currentUrl, currentTitle + '.pdf');
   });
   readerClose.addEventListener('click', closeReader);
   document.addEventListener('keydown', (e) => {

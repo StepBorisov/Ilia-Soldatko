@@ -488,7 +488,12 @@ section{ overflow:hidden; }
 }
 @media (min-width: 861px){
   .hero .container{ align-items:stretch; }
-  .hero-visual{ aspect-ratio:unset; height:100%; }
+  .hero-visual{
+    aspect-ratio:4/5;
+    width:auto;
+    height:100%;
+    justify-self:end;
+  }
 }
 
 /* ==========================================================================
@@ -1422,7 +1427,6 @@ footer a:hover{ text-decoration:underline; }
         <span class="mono-tag">Навигация</span>
         <h2 class="text-gradient">Разделы сайта</h2>
       </div>
-      <p class="desc">Материалы сгруппированы по типу — выберите нужный раздел.</p>
     </div>
 
     <div class="sections-grid reveal">

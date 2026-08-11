@@ -323,10 +323,6 @@ section{ overflow:hidden; }
   gap:64px;
   align-items:center;
 }
-@media (min-width: 861px){
-  .hero .container{ align-items:stretch; }
-  .hero-visual{ aspect-ratio:unset; height:100%; }
-}
 .hero-quicklinks{
   display:flex; flex-wrap:wrap; gap:10px 14px;
   list-style:none; padding:0; margin:0 0 32px;
@@ -489,6 +485,10 @@ section{ overflow:hidden; }
   50%{ top:94%; opacity:1;}
   60%{ opacity:0; }
   100%{ top:94%; opacity:0; }
+}
+@media (min-width: 861px){
+  .hero .container{ align-items:stretch; }
+  .hero-visual{ aspect-ratio:unset; height:100%; }
 }
 
 /* ==========================================================================
@@ -660,13 +660,16 @@ section{ position:relative; padding:132px 0; }
 @media (max-width: 560px){ .directions-grid{ grid-template-columns:1fr; } }
 
 .sections-grid{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
   align-items:stretch;
   gap:18px;
 }
 .section-link-card{
   display:block;
+  flex:0 1 calc(33.333% - 12px);
+  min-width:240px;
   background:var(--glass-bg);
   backdrop-filter:var(--glass-blur);
   -webkit-backdrop-filter:var(--glass-blur);
@@ -684,8 +687,8 @@ section{ position:relative; padding:132px 0; }
 .section-link-card p{ font-size:13.5px; color:var(--text); margin:0; }
 .section-link-card .arrow{ position:absolute; top:30px; right:26px; width:18px; height:18px; color:var(--accent-2); transition:transform .3s ease; }
 .section-link-card:hover .arrow{ transform:translate(3px,-3px); }
-@media (max-width: 980px){ .sections-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width: 560px){ .sections-grid{ grid-template-columns:1fr; } }
+@media (max-width: 980px){ .section-link-card{ flex-basis:calc(50% - 9px); } }
+@media (max-width: 560px){ .section-link-card{ flex-basis:100%; } }
 
 /* ==========================================================================
    FILMSTRIP — publications / cases carousel (glass cards)

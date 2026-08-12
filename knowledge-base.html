@@ -1580,7 +1580,7 @@ footer a:hover{ text-decoration:underline; }
   <div class="lit-grid reveal" id="anatomy-grid" style="margin-bottom:60px;"></div>
 
   <p class="mono-tag" id="templates-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Шаблоны описаний</p>
-  <div class="kb-placeholder">Шаблоны описаний скоро появятся здесь.</div>
+  <div class="lit-grid reveal" id="templates-grid" style="margin-bottom:60px;"></div>
 
   <p class="mono-tag" id="publications-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Публикации</p>
   <div class="kb-placeholder">Публикации скоро появятся здесь.</div>
@@ -2195,10 +2195,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script>
 /* =========================================================
-   ANATOMY DOCX SECTION — cards + embedded Office viewer reader
+   DOCX SECTIONS — Анатомия + Шаблоны описаний
+   cards + shared fullscreen embedded Office viewer reader
    ========================================================= */
 (() => {
   const DOCX_BASE = 'assets/docx/';
+
   const ANATOMY_DOCS = [
     { title:"Анатомия коленного сустава", file:"anatomy-knee.docx",
       desc:"МРТ в аксиальной, сагиттальной и коронарной плоскостях, схема суставных сумок колена.",
@@ -2226,27 +2228,29 @@ document.addEventListener('DOMContentLoaded', () => {
       source:"https://rentgenogram.ru/anatomiya/anatomiya-myagkih-tkanej-shei/" }
   ];
 
-  const grid = document.getElementById('anatomy-grid');
-  if (!grid) return;
+  const TEMPLATE_DOCS = [
+    { title:"Брюшная полость, забрюшинное пространство", file:"template-abdomen-retroperitoneal.docx" },
+    { title:"Головной мозг, натив, ОНМК", file:"template-brain-native-stroke.docx" },
+    { title:"Забрюшинное пространство, АГ", file:"template-retroperitoneal-ag.docx" },
+    { title:"Коленные суставы", file:"template-knee.docx" },
+    { title:"Малый таз Ж + КУ", file:"template-pelvis-female-contrast.docx" },
+    { title:"Малый таз М + КУ", file:"template-pelvis-male-contrast.docx" },
+    { title:"Органы грудной клетки, КУ", file:"template-chest-contrast.docx" },
+    { title:"Органы грудной клетки, пневмония", file:"template-chest-pneumonia.docx" },
+    { title:"Органы грудной клетки, натив", file:"template-chest-native.docx" },
+    { title:"Позвоночник, грудной отдел", file:"template-spine-thoracic.docx" },
+    { title:"Сосуды нижних конечностей, КТ АГ", file:"template-lower-limb-vessels-ct-ag.docx" },
+    { title:"Голеностопный сустав", file:"template-ankle.docx" },
+    { title:"Кисть", file:"template-hand.docx" },
+    { title:"Позвоночник, поясничный отдел", file:"template-spine-lumbar.docx" },
+    { title:"Позвоночник, шейный отдел", file:"template-spine-cervical.docx" },
+    { title:"Тазобедренные суставы", file:"template-hip.docx" }
+  ];
 
   function buildViewerUrl(file){
     const abs = new URL(DOCX_BASE + file, window.location.href).href;
     return 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(abs);
   }
-
-  grid.innerHTML = ANATOMY_DOCS.map((d, i) => `
-    <div class="lit-card" data-index="${i}">
-      <h4>${d.title}</h4>
-      <p>${d.desc}</p>
-      <a class="lit-meta-row" href="${d.source}" target="_blank" rel="noopener">Источник: rentgenogram.ru</a>
-      <div class="lit-actions">
-        <button class="btn btn-primary doc-open" type="button" data-index="${i}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          Открыть документ
-        </button>
-      </div>
-    </div>
-  `).join('');
 
   const reader = document.getElementById('docx-reader');
   const readerTitle = document.getElementById('docx-reader-title');
@@ -2254,10 +2258,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const readerClose = document.getElementById('docx-reader-close');
   let lockedScrollY = 0;
 
-  function openDocReader(i){
-    const d = ANATOMY_DOCS[i];
-    readerTitle.textContent = d.title;
-    readerFrame.src = buildViewerUrl(d.file);
+  function openDocReader(title, file){
+    readerTitle.textContent = title;
+    readerFrame.src = buildViewerUrl(file);
     reader.classList.add('is-open');
     reader.setAttribute('aria-hidden', 'false');
     lockedScrollY = window.scrollY;
@@ -2278,14 +2281,35 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.width = '';
     window.scrollTo(0, lockedScrollY);
   }
-
-  grid.querySelectorAll('.doc-open').forEach(btn => {
-    btn.addEventListener('click', () => openDocReader(parseInt(btn.dataset.index, 10)));
-  });
   readerClose.addEventListener('click', closeDocReader);
   document.addEventListener('keydown', (e) => {
     if (reader.classList.contains('is-open') && e.key === 'Escape') closeDocReader();
   });
+
+  function renderDocGrid(gridId, docs, withSource){
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = docs.map((d, i) => `
+      <div class="lit-card" data-index="${i}">
+        <h4>${d.title}</h4>
+        ${d.desc ? `<p>${d.desc}</p>` : ''}
+        ${withSource && d.source ? `<a class="lit-meta-row" href="${d.source}" target="_blank" rel="noopener">Источник: rentgenogram.ru</a>` : `<p class="lit-meta-row">DOCX · шаблон описания</p>`}
+        <div class="lit-actions">
+          <button class="btn btn-primary doc-open" type="button" data-index="${i}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            Открыть документ
+          </button>
+        </div>
+      </div>
+    `).join('');
+    grid.querySelectorAll('.doc-open').forEach(btn => {
+      const i = parseInt(btn.dataset.index, 10);
+      btn.addEventListener('click', () => openDocReader(docs[i].title, docs[i].file));
+    });
+  }
+
+  renderDocGrid('anatomy-grid', ANATOMY_DOCS, true);
+  renderDocGrid('templates-grid', TEMPLATE_DOCS, false);
 })();
 </script>
 </body>

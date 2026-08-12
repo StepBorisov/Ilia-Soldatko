@@ -1186,6 +1186,16 @@ footer a:hover{ text-decoration:underline; }
   display:none;
 }
 .kb-empty.is-visible{ display:block; }
+.kb-placeholder{
+  text-align:center;
+  padding:56px 20px;
+  color:var(--text-soft);
+  font-size:14.5px;
+  border:1px dashed var(--glass-border);
+  border-radius:var(--radius-lg);
+  background:var(--glass-bg);
+  margin-bottom:60px;
+}
 
 /* ==========================================================================
    ATLAS BANNER — entry card for the "Атлас анатомии" material
@@ -1557,7 +1567,7 @@ footer a:hover{ text-decoration:underline; }
   <div class="container">
     <div class="kb-hero-left">
       <span class="mono-tag">Систематизировано · срез за срезом</span>
-      <h1 class="text-gradient">База знаний и литература по лучевой диагностике</h1>
+      <h1 class="text-gradient">База знаний по лучевой диагностике</h1>
       <p>Все материалы — статьи, клинические случаи, лекции, презентации и рекомендации — собраны в одном месте с поиском, категориями и тегами. Откройте карточку, чтобы прочитать материал, не покидая страницу.</p>
     </div>
   </div>
@@ -1565,6 +1575,18 @@ footer a:hover{ text-decoration:underline; }
 
 
 <main class="container">
+
+  <p class="mono-tag" id="anatomy-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Анатомия</p>
+  <div class="lit-grid reveal" id="anatomy-grid" style="margin-bottom:60px;"></div>
+
+  <p class="mono-tag" id="templates-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Шаблоны описаний</p>
+  <div class="kb-placeholder">Шаблоны описаний скоро появятся здесь.</div>
+
+  <p class="mono-tag" id="publications-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Публикации</p>
+  <div class="kb-placeholder">Публикации скоро появятся здесь.</div>
+
+  <p class="mono-tag" id="cases-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Клинические случаи</p>
+  <div class="kb-placeholder">Клинические случаи скоро появятся здесь.</div>
 
   <p class="mono-tag" id="atlas-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Атлас анатомии</p>
   <article class="atlas-banner reveal">
@@ -1656,6 +1678,21 @@ footer a:hover{ text-decoration:underline; }
       <p id="pdf-viewer-status-text">Подождите немного — документ скоро откроется</p>
       <button class="pdf-viewer-retry is-hidden" id="pdf-viewer-retry" type="button">Повторить</button>
     </div>
+  </div>
+</div>
+
+<!-- anatomy: fullscreen DOCX reader (embedded Office viewer) -->
+<div class="pdf-reader" id="docx-reader" aria-hidden="true">
+  <div class="pdf-reader-head">
+    <h4 id="docx-reader-title"></h4>
+    <div class="pdf-reader-actions">
+      <button id="docx-reader-close" type="button" aria-label="Закрыть">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="pdf-reader-body">
+    <iframe id="docx-reader-frame" src="" title="Просмотр документа" style="width:100%; height:100%; border:0; background:#fff;"></iframe>
   </div>
 </div>
 
@@ -2153,6 +2190,101 @@ document.addEventListener('DOMContentLoaded', () => {
   readerClose.addEventListener('click', closeReader);
   document.addEventListener('keydown', (e) => {
     if (reader.classList.contains('is-open') && e.key === 'Escape') closeReader();
+  });
+})();
+</script>
+<script>
+/* =========================================================
+   ANATOMY DOCX SECTION — cards + embedded Office viewer reader
+   ========================================================= */
+(() => {
+  const DOCX_BASE = 'assets/docx/';
+  const ANATOMY_DOCS = [
+    { title:"Анатомия коленного сустава", file:"anatomy-knee.docx",
+      desc:"МРТ в аксиальной, сагиттальной и коронарной плоскостях, схема суставных сумок колена.",
+      source:"https://rentgenogram.ru/anatomiya/anatomiya-kolennogo-sustava/" },
+    { title:"Анатомия плечевого сустава", file:"anatomy-shoulder.docx",
+      desc:"МРТ плечевого сустава в аксиальном, коронарном и сагиттальном срезах.",
+      source:"https://rentgenogram.ru/anatomiya/plechevoj-sustav/" },
+    { title:"Анатомия брюшной полости", file:"anatomy-abdomen.docx",
+      desc:"Схема анатомии брюшной полости в аксиальной проекции, сегментарное строение печени на МРТ.",
+      source:"https://rentgenogram.ru/anatomiya/abdomen-anatomy/" },
+    { title:"Анатомия лучезапястного сустава кисти", file:"anatomy-wrist-hand.docx",
+      desc:"Сухожилия и связки на аксиальном МРТ, ладонная и тыльная поверхности.",
+      source:"https://rentgenogram.ru/anatomiya/anatomy-wrist-hand-anatomy/" },
+    { title:"Анатомия таза и тазобедренных суставов", file:"anatomy-pelvis-hip.docx",
+      desc:"Точки крепления сухожилий, связки таза, тазобедренный сустав на МРТ.",
+      source:"https://rentgenogram.ru/anatomiya/kosti-taza-i-tb-sustavy/" },
+    { title:"Анатомия позвоночника", file:"anatomy-spine.docx",
+      desc:"Шейный, грудной и поясничный отделы на МРТ и КТ во всех проекциях.",
+      source:"https://rentgenogram.ru/anatomiya/spine-normal/" },
+    { title:"Анатомия головного мозга", file:"anatomy-brain.docx",
+      desc:"Аксиальные срезы, субарахноидальные пространства, базальные ядра, хиазмально-селлярная область.",
+      source:"https://rentgenogram.ru/anatomiya/brain-normal/" },
+    { title:"Анатомия мягких тканей шеи", file:"anatomy-neck-soft-tissue.docx",
+      desc:"Фасциальные слои шеи, заглоточное пространство, лестничный треугольник, уровни лимфоузлов.",
+      source:"https://rentgenogram.ru/anatomiya/anatomiya-myagkih-tkanej-shei/" }
+  ];
+
+  const grid = document.getElementById('anatomy-grid');
+  if (!grid) return;
+
+  function buildViewerUrl(file){
+    const abs = new URL(DOCX_BASE + file, window.location.href).href;
+    return 'https://view.officeapps.live.com/op/embed.aspx?src=' + encodeURIComponent(abs);
+  }
+
+  grid.innerHTML = ANATOMY_DOCS.map((d, i) => `
+    <div class="lit-card" data-index="${i}">
+      <h4>${d.title}</h4>
+      <p>${d.desc}</p>
+      <a class="lit-meta-row" href="${d.source}" target="_blank" rel="noopener">Источник: rentgenogram.ru</a>
+      <div class="lit-actions">
+        <button class="btn btn-primary doc-open" type="button" data-index="${i}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Открыть документ
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  const reader = document.getElementById('docx-reader');
+  const readerTitle = document.getElementById('docx-reader-title');
+  const readerFrame = document.getElementById('docx-reader-frame');
+  const readerClose = document.getElementById('docx-reader-close');
+  let lockedScrollY = 0;
+
+  function openDocReader(i){
+    const d = ANATOMY_DOCS[i];
+    readerTitle.textContent = d.title;
+    readerFrame.src = buildViewerUrl(d.file);
+    reader.classList.add('is-open');
+    reader.setAttribute('aria-hidden', 'false');
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+  }
+  function closeDocReader(){
+    reader.classList.remove('is-open');
+    reader.setAttribute('aria-hidden', 'true');
+    readerFrame.src = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, lockedScrollY);
+  }
+
+  grid.querySelectorAll('.doc-open').forEach(btn => {
+    btn.addEventListener('click', () => openDocReader(parseInt(btn.dataset.index, 10)));
+  });
+  readerClose.addEventListener('click', closeDocReader);
+  document.addEventListener('keydown', (e) => {
+    if (reader.classList.contains('is-open') && e.key === 'Escape') closeDocReader();
   });
 })();
 </script>

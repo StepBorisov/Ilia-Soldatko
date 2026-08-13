@@ -1322,6 +1322,13 @@ footer a:hover{ text-decoration:underline; }
 .lit-card.is-missing .lit-actions .btn{ opacity:.45; pointer-events:none; }
 .lit-missing-tag{ font-family:var(--font-mono); font-size:10px; color:#E7B65C; margin-bottom:10px; }
 
+.pub-cover-wrap{
+  width:100%; aspect-ratio: 744 / 1030; border-radius:12px; overflow:hidden;
+  margin-bottom:14px; background:#06121e; border:1px solid var(--glass-border);
+}
+.pub-cover-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pub-card{ padding-top:14px; }
+
 .pdf-reader{
   position:fixed; inset:0; z-index:260;
   display:none; flex-direction:column;
@@ -2340,12 +2347,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const PUBLICATIONS = [
     { type: 'docx', file: 'publication-abdominal-xray-overview.docx',
+      cover: 'assets/covers/publication-abdominal-xray-overview.png',
       title: 'Обзорная рентгенография брюшной полости',
       desc: 'Систематизированный подход к чтению обзорной рентгенограммы органов брюшной полости.' },
     { type: 'pdf', file: 'publication-arthritis-approach.pdf',
+      cover: 'assets/covers/publication-arthritis-approach.png',
       title: 'Подход к диагностике артрита',
       desc: 'Алгоритм лучевой оценки суставов при подозрении на артрит.' },
     { type: 'pdf', file: 'publication-atelectasis-lines-tubes.pdf',
+      cover: 'assets/covers/publication-atelectasis-lines-tubes.png',
       title: 'Ателектаз, линии и трубки',
       desc: 'Разбор рентгенологической картины ателектаза и позиции катетеров/трубок на снимке.' }
   ];
@@ -2354,7 +2364,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!grid) return;
 
   grid.innerHTML = PUBLICATIONS.map((p, i) => `
-    <div class="lit-card" data-index="${i}">
+    <div class="lit-card pub-card" data-index="${i}">
+      <div class="pub-cover-wrap"><img src="${p.cover}" alt="${p.title}" loading="lazy"></div>
       <h4>${p.title}</h4>
       <p>${p.desc}</p>
       <div class="lit-meta-row">${p.type.toUpperCase()}</div>

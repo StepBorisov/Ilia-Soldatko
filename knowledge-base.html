@@ -1583,7 +1583,7 @@ footer a:hover{ text-decoration:underline; }
   <div class="lit-grid reveal" id="templates-grid" style="margin-bottom:60px;"></div>
 
   <p class="mono-tag" id="publications-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Публикации</p>
-  <div class="kb-placeholder">Публикации скоро появятся здесь.</div>
+  <div class="lit-grid reveal" id="publications-grid" style="margin-bottom:60px;"></div>
 
   <p class="mono-tag" id="cases-section" style="margin:36px 0 16px; scroll-margin-top:100px;">Клинические случаи</p>
   <div class="kb-placeholder">Клинические случаи скоро появятся здесь.</div>
@@ -2191,6 +2191,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (reader.classList.contains('is-open') && e.key === 'Escape') closeReader();
   });
+
+  // exposed so other sections (e.g. Публикации) can open the same PDF reader
+  window.openPdfReaderDirect = function(title, url){
+    currentUrl = url;
+    readerTitle.textContent = title;
+    reader.classList.add('is-open');
+    reader.setAttribute('aria-hidden', 'false');
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+    loadPdf(url);
+  };
 })();
 </script>
 <script>
@@ -2286,6 +2301,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (reader.classList.contains('is-open') && e.key === 'Escape') closeDocReader();
   });
 
+  // exposed so other sections (e.g. Публикации) can open the same DOCX reader
+  window.openDocxReaderDirect = openDocReader;
+
   function renderDocGrid(gridId, docs, withSource){
     const grid = document.getElementById(gridId);
     if (!grid) return;
@@ -2310,6 +2328,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderDocGrid('anatomy-grid', ANATOMY_DOCS, true);
   renderDocGrid('templates-grid', TEMPLATE_DOCS, false);
+})();
+</script>
+<script>
+/* =========================================================
+   PUBLICATIONS — mixed docx/pdf cards, opens shared readers
+   ========================================================= */
+(() => {
+  const DOCX_BASE = 'assets/docx/';
+  const DOCS_BASE = 'assets/docs/';
+
+  const PUBLICATIONS = [
+    { type: 'docx', file: 'publication-abdominal-xray-overview.docx',
+      title: 'Обзорная рентгенография брюшной полости',
+      desc: 'Систематизированный подход к чтению обзорной рентгенограммы органов брюшной полости.' },
+    { type: 'pdf', file: 'publication-arthritis-approach.pdf',
+      title: 'Подход к диагностике артрита',
+      desc: 'Алгоритм лучевой оценки суставов при подозрении на артрит.' },
+    { type: 'pdf', file: 'publication-atelectasis-lines-tubes.pdf',
+      title: 'Ателектаз, линии и трубки',
+      desc: 'Разбор рентгенологической картины ателектаза и позиции катетеров/трубок на снимке.' }
+  ];
+
+  const grid = document.getElementById('publications-grid');
+  if (!grid) return;
+
+  grid.innerHTML = PUBLICATIONS.map((p, i) => `
+    <div class="lit-card" data-index="${i}">
+      <h4>${p.title}</h4>
+      <p>${p.desc}</p>
+      <div class="lit-meta-row">${p.type.toUpperCase()}</div>
+      <div class="lit-actions">
+        <button class="btn btn-primary pub-open" type="button" data-index="${i}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Открыть
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.pub-open').forEach(btn => {
+    const i = parseInt(btn.dataset.index, 10);
+    btn.addEventListener('click', () => {
+      const p = PUBLICATIONS[i];
+      if (p.type === 'docx') {
+        window.openDocxReaderDirect(p.title, p.file);
+      } else {
+        const url = new URL(DOCS_BASE + p.file, window.location.href).href;
+        window.openPdfReaderDirect(p.title, url);
+      }
+    });
+  });
 })();
 </script>
 </body>

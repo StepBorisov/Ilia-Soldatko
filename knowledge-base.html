@@ -2363,7 +2363,6 @@ document.addEventListener('DOMContentLoaded', () => {
   grid.innerHTML = PUBLICATIONS.map((p, i) => `
     <div class="lit-card pub-card" data-index="${i}">
       <div class="pub-cover-wrap"><img src="${p.cover}" alt="${p.title}" loading="lazy"></div>
-      <div class="lit-meta-row">${p.type.toUpperCase()}</div>
       <div class="lit-actions">
         <button class="btn btn-primary pub-open" type="button" data-index="${i}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>

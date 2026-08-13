@@ -2363,8 +2363,6 @@ document.addEventListener('DOMContentLoaded', () => {
   grid.innerHTML = PUBLICATIONS.map((p, i) => `
     <div class="lit-card pub-card" data-index="${i}">
       <div class="pub-cover-wrap"><img src="${p.cover}" alt="${p.title}" loading="lazy"></div>
-      <h4>${p.title}</h4>
-      <p>${p.desc}</p>
       <div class="lit-meta-row">${p.type.toUpperCase()}</div>
       <div class="lit-actions">
         <button class="btn btn-primary pub-open" type="button" data-index="${i}">

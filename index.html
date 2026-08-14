@@ -407,8 +407,12 @@ section{ overflow:hidden; }
 #publications .section-head{ margin-bottom:32px; }
 .pub-carousel-wrap{
   display:flex;
-  align-items:center;
-  gap:12px;
+  flex-direction:column;
+  gap:20px;
+}
+.pub-nav-row{
+  display:flex;
+  justify-content:space-between;
 }
 .pub-nav{
   flex-shrink:0;
@@ -437,32 +441,28 @@ section{ overflow:hidden; }
 .pub-grid::-webkit-scrollbar{ display:none; }
 .pub-card{
   scroll-snap-align:start;
-  flex:0 0 auto;
-  width:200px;
-}
-@media (min-width: 640px){
-  .pub-card{ width:240px; }
-}
-@media (min-width: 861px){
-  .pub-card{ width:270px; }
+  flex:0 0 100%;
+  width:100%;
 }
 .pub-card{
   background:var(--glass-bg);
   border:1px solid var(--glass-border);
   border-radius:var(--radius-lg);
-  padding:14px 20px 20px;
+  padding:24px;
   display:flex;
   flex-direction:column;
+  align-items:center;
+  text-align:center;
   text-decoration:none;
   transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
 }
 .pub-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-card); background:rgba(255,255,255,0.09); }
 .pub-cover-wrap{
-  width:100%; aspect-ratio: 744 / 1030; border-radius:12px; overflow:hidden;
-  margin-bottom:14px; background:#06121e; border:1px solid var(--glass-border);
+  width:100%; max-width:320px; aspect-ratio: 744 / 1030; border-radius:12px; overflow:hidden;
+  margin:0 auto 18px; background:#06121e; border:1px solid var(--glass-border);
 }
 .pub-cover-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
-.pub-card .btn{ justify-content:center; padding:9px 10px; font-size:13px; }
+.pub-card .btn{ min-width:180px; justify-content:center; padding:11px 20px; font-size:14px; }
 
 .btn-primary{
   position:relative;
@@ -1393,14 +1393,11 @@ footer a:hover{ text-decoration:underline; }
     <div class="section-head reveal">
       <div>
         <span class="mono-tag">Публикации</span>
-        <h2 class="text-gradient">Публикации</h2>
+        <h2 class="text-gradient">Последние публикации</h2>
       </div>
     </div>
 
     <div class="pub-carousel-wrap reveal">
-      <button type="button" class="pub-nav pub-nav-prev" aria-label="Предыдущая публикация">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
       <div class="pub-grid" id="pub-carousel">
         <a class="pub-card" href="knowledge-base.html#publications-section">
           <div class="pub-cover-wrap"><img src="assets/covers/publication-abdominal-xray-overview.png" alt="Обзорная рентгенография брюшной полости" loading="lazy"></div>
@@ -1424,9 +1421,14 @@ footer a:hover{ text-decoration:underline; }
           </span>
         </a>
       </div>
-      <button type="button" class="pub-nav pub-nav-next" aria-label="Следующая публикация">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
+      <div class="pub-nav-row">
+        <button type="button" class="pub-nav pub-nav-prev" aria-label="Предыдущая публикация">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="pub-nav pub-nav-next" aria-label="Следующая публикация">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>

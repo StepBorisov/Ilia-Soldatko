@@ -403,6 +403,33 @@ section{ overflow:hidden; }
   -webkit-background-clip:padding-box;
   transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease, filter .25s ease;
 }
+/* ---------- publications preview: cover cards ---------- */
+.pub-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:20px;
+}
+@media (min-width: 861px){
+  .pub-grid{ grid-template-columns:repeat(3, 1fr); }
+}
+.pub-card{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  padding:14px 20px 20px;
+  display:flex;
+  flex-direction:column;
+  text-decoration:none;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.pub-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-card); background:rgba(255,255,255,0.09); }
+.pub-cover-wrap{
+  width:100%; aspect-ratio: 744 / 1030; border-radius:12px; overflow:hidden;
+  margin-bottom:14px; background:#06121e; border:1px solid var(--glass-border);
+}
+.pub-cover-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pub-card .btn{ justify-content:center; padding:9px 10px; font-size:13px; }
+
 .btn-primary{
   position:relative;
   isolation:isolate;
@@ -1326,6 +1353,43 @@ footer a:hover{ text-decoration:underline; }
   </div>
 </header>
 
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publications" data-slice data-slice-label="Публикации">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono-tag">Материалы</span>
+        <h2 class="text-gradient">Публикации</h2>
+      </div>
+      <p class="desc">Статьи и материалы по лучевой диагностике.</p>
+    </div>
+
+    <div class="pub-grid reveal">
+      <a class="pub-card" href="knowledge-base.html#publications-section">
+        <div class="pub-cover-wrap"><img src="assets/covers/publication-abdominal-xray-overview.png" alt="Обзорная рентгенография брюшной полости" loading="lazy"></div>
+        <span class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Открыть
+        </span>
+      </a>
+      <a class="pub-card" href="knowledge-base.html#publications-section">
+        <div class="pub-cover-wrap"><img src="assets/covers/publication-arthritis-approach.png" alt="Подход к диагностике артрита" loading="lazy"></div>
+        <span class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Открыть
+        </span>
+      </a>
+      <a class="pub-card" href="knowledge-base.html#publications-section">
+        <div class="pub-cover-wrap"><img src="assets/covers/publication-atelectasis-lines-tubes.png" alt="Ателектаз, линии и трубки" loading="lazy"></div>
+        <span class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Открыть
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ SECTIONS ============ -->
 <section id="sections" data-slice data-slice-label="Разделы">
   <div class="section-parallax-grid" data-parallax-speed="0.06" aria-hidden="true"></div>
@@ -1338,10 +1402,10 @@ footer a:hover{ text-decoration:underline; }
     </div>
 
     <div class="sections-grid reveal">
-      <a class="section-link-card" href="knowledge-base.html#anatomy-section">
+      <a class="section-link-card" href="knowledge-base.html#cases-section">
         <span class="direction-index">01</span>
-        <h4>Анатомия</h4>
-        <p>Материалы по анатомии органов и суставов.</p>
+        <h4>Клинические случаи</h4>
+        <p>Разборы случаев и находок из практики.</p>
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
       <a class="section-link-card" href="knowledge-base.html#templates-section">
@@ -1350,16 +1414,16 @@ footer a:hover{ text-decoration:underline; }
         <p>Готовые протоколы описаний КТ и МРТ.</p>
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
-      <a class="section-link-card" href="knowledge-base.html#publications-section">
+      <a class="section-link-card" href="knowledge-base.html#anatomy-section">
         <span class="direction-index">03</span>
-        <h4>Публикации</h4>
-        <p>Статьи и материалы по лучевой диагностике.</p>
+        <h4>Анатомия</h4>
+        <p>Материалы по анатомии органов и суставов.</p>
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
-      <a class="section-link-card" href="knowledge-base.html#cases-section">
+      <a class="section-link-card" href="knowledge-base.html#literature-section">
         <span class="direction-index">04</span>
-        <h4>Клинические случаи</h4>
-        <p>Разборы случаев и находок из практики.</p>
+        <h4>Литература</h4>
+        <p>Книги и учебные материалы по лучевой диагностике.</p>
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
     </div>
@@ -1404,7 +1468,7 @@ footer a:hover{ text-decoration:underline; }
 <footer>
   <div class="container">
     <span>© 2026 Илья Солдатко. Материалы для профессионального сообщества.</span>
-    <span><a href="knowledge-base.html">База знаний и литература</a> · <a href="archive.html">Инструменты</a></span>
+    <span><a href="knowledge-base.html">База знаний</a> · <a href="archive.html">Инструменты</a></span>
   </div>
 </footer>
 

@@ -403,14 +403,48 @@ section{ overflow:hidden; }
   -webkit-background-clip:padding-box;
   transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease, filter .25s ease;
 }
-/* ---------- publications preview: cover cards ---------- */
+/* ---------- publications preview: cover cards (carousel) ---------- */
+#publications .section-head{ margin-bottom:32px; }
+.pub-carousel-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.pub-nav{
+  flex-shrink:0;
+  width:44px; height:44px;
+  border-radius:50%;
+  background:var(--glass-bg-strong);
+  border:1px solid var(--glass-border);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--heading);
+  cursor:pointer;
+  transition:background .2s ease, transform .2s ease;
+}
+.pub-nav:hover{ background:rgba(255,255,255,0.18); transform:translateY(-2px); }
+.pub-nav svg{ width:20px; height:20px; }
+.pub-nav:disabled{ opacity:.35; pointer-events:none; }
 .pub-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  display:flex;
   gap:20px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:2px;
+}
+.pub-grid::-webkit-scrollbar{ display:none; }
+.pub-card{
+  scroll-snap-align:start;
+  flex:0 0 auto;
+  width:200px;
+}
+@media (min-width: 640px){
+  .pub-card{ width:240px; }
 }
 @media (min-width: 861px){
-  .pub-grid{ grid-template-columns:repeat(3, 1fr); }
+  .pub-card{ width:270px; }
 }
 .pub-card{
   background:var(--glass-bg);
@@ -1358,34 +1392,41 @@ footer a:hover{ text-decoration:underline; }
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="mono-tag">Материалы</span>
+        <span class="mono-tag">Публикации</span>
         <h2 class="text-gradient">Публикации</h2>
       </div>
-      <p class="desc">Статьи и материалы по лучевой диагностике.</p>
     </div>
 
-    <div class="pub-grid reveal">
-      <a class="pub-card" href="knowledge-base.html#publications-section">
-        <div class="pub-cover-wrap"><img src="assets/covers/publication-abdominal-xray-overview.png" alt="Обзорная рентгенография брюшной полости" loading="lazy"></div>
-        <span class="btn btn-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          Открыть
-        </span>
-      </a>
-      <a class="pub-card" href="knowledge-base.html#publications-section">
-        <div class="pub-cover-wrap"><img src="assets/covers/publication-arthritis-approach.png" alt="Подход к диагностике артрита" loading="lazy"></div>
-        <span class="btn btn-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          Открыть
-        </span>
-      </a>
-      <a class="pub-card" href="knowledge-base.html#publications-section">
-        <div class="pub-cover-wrap"><img src="assets/covers/publication-atelectasis-lines-tubes.png" alt="Ателектаз, линии и трубки" loading="lazy"></div>
-        <span class="btn btn-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          Открыть
-        </span>
-      </a>
+    <div class="pub-carousel-wrap reveal">
+      <button type="button" class="pub-nav pub-nav-prev" aria-label="Предыдущая публикация">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="pub-grid" id="pub-carousel">
+        <a class="pub-card" href="knowledge-base.html#publications-section">
+          <div class="pub-cover-wrap"><img src="assets/covers/publication-abdominal-xray-overview.png" alt="Обзорная рентгенография брюшной полости" loading="lazy"></div>
+          <span class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            Открыть
+          </span>
+        </a>
+        <a class="pub-card" href="knowledge-base.html#publications-section">
+          <div class="pub-cover-wrap"><img src="assets/covers/publication-arthritis-approach.png" alt="Подход к диагностике артрита" loading="lazy"></div>
+          <span class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            Открыть
+          </span>
+        </a>
+        <a class="pub-card" href="knowledge-base.html#publications-section">
+          <div class="pub-cover-wrap"><img src="assets/covers/publication-atelectasis-lines-tubes.png" alt="Ателектаз, линии и трубки" loading="lazy"></div>
+          <span class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;margin-right:6px;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            Открыть
+          </span>
+        </a>
+      </div>
+      <button type="button" class="pub-nav pub-nav-next" aria-label="Следующая публикация">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
     </div>
   </div>
 </section>
@@ -1633,6 +1674,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn) prevBtn.addEventListener('click', () => goTo(getCurrentIndex() - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => goTo(getCurrentIndex() + 1));
   });
+
+  /* ---------- publications carousel ---------- */
+  const pubTrack = document.getElementById('pub-carousel');
+  if (pubTrack) {
+    const pubWrap = pubTrack.closest('.pub-carousel-wrap');
+    const pubPrev = pubWrap.querySelector('.pub-nav-prev');
+    const pubNext = pubWrap.querySelector('.pub-nav-next');
+    const pubCards = Array.from(pubTrack.querySelectorAll('.pub-card'));
+
+    const pubStep = () => {
+      const card = pubCards[0];
+      if (!card) return 0;
+      const style = window.getComputedStyle(pubTrack);
+      const gap = parseFloat(style.columnGap || style.gap || '20');
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    const updatePubNav = () => {
+      const maxScroll = pubTrack.scrollWidth - pubTrack.clientWidth - 2;
+      if (pubPrev) pubPrev.disabled = pubTrack.scrollLeft <= 2;
+      if (pubNext) pubNext.disabled = pubTrack.scrollLeft >= maxScroll;
+    };
+
+    if (pubPrev) pubPrev.addEventListener('click', () => {
+      pubTrack.scrollBy({ left: -pubStep(), behavior: 'smooth' });
+    });
+    if (pubNext) pubNext.addEventListener('click', () => {
+      pubTrack.scrollBy({ left: pubStep(), behavior: 'smooth' });
+    });
+    pubTrack.addEventListener('scroll', updatePubNav, { passive: true });
+    window.addEventListener('resize', updatePubNav);
+    updatePubNav();
+  }
 
   /* ---------- generic modal system ---------- */
   const backdrop = document.querySelector('.modal-backdrop');

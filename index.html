@@ -941,10 +941,24 @@ section{ position:relative; padding:132px 0; }
 }
 .form-success.is-visible{ display:flex; }
 
+.hero-visual-mobile{ display:none; }
 @media (max-width: 900px){
   .contact-grid{ grid-template-columns:1fr; }
   .hero .container{ grid-template-columns:1fr; }
-  .hero-visual{ order:-1; max-width:420px; margin:0 auto; }
+  .hero-visual{ display:none; }
+  .hero-visual-mobile{
+    display:block;
+    width:100%;
+    max-width:420px;
+    aspect-ratio:1/1;
+    margin:24px auto 28px;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    background:linear-gradient(165deg, var(--navy-800) 0%, var(--blue-700) 55%, var(--blue-500) 100%);
+    box-shadow:var(--shadow-soft);
+    border:1px solid rgba(255,255,255,0.3);
+  }
+  .hero-visual-mobile img{ width:100%; height:100%; object-fit:cover; display:block; }
 }
 
 @media (max-width: 600px){
@@ -956,7 +970,7 @@ section{ position:relative; padding:132px 0; }
   .hero-tagline{ padding-top:44px; margin-top:0; margin-bottom:58px; }
   .hero-tagline p{ font-size:14px; }
   .hero-tagline cite{ font-size:11px; }
-  .hero-visual{ max-width:280px; }
+  .hero-visual-mobile{ max-width:280px; }
   .btn{ padding:9px 18px; font-size:13px; }
 }
 
@@ -1373,6 +1387,9 @@ footer a:hover{ text-decoration:underline; }
   <div class="container">
     <div class="hero-copy">
       <h1>Илья Солдатко — врач-рентгенолог</h1>
+      <div class="hero-visual-mobile">
+        <img src="assets/covers/logo.png" alt="Илья Солдатко — врач-рентгенолог, ЛРКБ">
+      </div>
       <p class="lead">Систематизирует опыт клинической практики, разборы исследований и случаи из практики в одном месте — для студентов медицинских вузов, врачей и клинических ординаторов.</p>
       <div class="hero-actions">
         <a href="knowledge-base.html" class="btn btn-primary">
